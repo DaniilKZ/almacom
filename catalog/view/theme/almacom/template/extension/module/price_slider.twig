@@ -1,0 +1,50 @@
+<style type="text/css">
+    .slider-example {
+        padding-top: 10px;
+        padding-bottom: 55px;
+        margin: 35px 0;
+    }
+</style>
+
+{% if min_max != 0 %}
+
+<div class="cf-details-block" {% if module_price_filter_status and module_price_filter_status == 0 %} style="display: none;" {% endif %}>
+    <div class="cfd-block-title"><span>{{ price_slider_title }}, ₸</span></div>
+    <div class="cfd-block-inputs" style="display: flex;">
+        <input class="pricefilter" placeholder="{{price_range_min}}"  
+        value="{{ (price_range[0] is defined and price_range[0] != '' ) ? price_range[0]: price_range_min }}" type="text" name="price-slider-min" />
+
+        <input class="pricefilter" placeholder="{{ price_range_max }}"  
+        value="{{ (price_range[1] is defined and price_range[1] != '' and price_range[1] != 0) ? price_range[1]: price_range_max }}" type="text" name="price-slider-max" />
+    </div>
+</div>  
+
+{% endif %}
+<script>
+
+
+$(document).on('click', '#button-filter', function() {
+  filter = [];
+
+  $('input[name^=\'filter\']:checked').each(function(element) {
+    filter.push(this.value);
+  });
+  pr = '';
+  if( (typeof $('input[name="price-slider-min"]').val() != "undefined") && (typeof $('input[name="price-slider-max"]').val() != "undefined") ) {
+
+    var min = ($('input[name="price-slider-min"]').val()) ? $('input[name="price-slider-min"]').val().replace(/\s/g, '') : 0;
+    var max = ($('input[name="price-slider-max"]').val()) ? $('input[name="price-slider-max"]').val().replace(/\s/g, '') : 0;
+
+    price = parseInt(min) + ',' + parseInt(max);
+
+    if (price != '') {
+      pr = "&pr=" + price;
+    }
+  }
+  location = '{{ action }}&filter=' + filter.join(',') + pr;
+});
+
+$(document).on('click', 'button[name^=\'reset\']', function() {
+  location = '{{ action }}';
+});
+</script>

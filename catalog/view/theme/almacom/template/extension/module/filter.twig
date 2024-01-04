@@ -1,0 +1,80 @@
+{% for filter_group in filter_groups %}
+<div class="cf-details-block">
+  <div class="cfd-block-title"><span>{{ filter_group.name }}</span></div>
+  <ul id="filter-group{{ filter_group.filter_group_id }}">
+    {% for filter in filter_group.filter %}
+      {% if filter.filter_id in filter_category %}
+        <li class="cfb-list-item active">
+          <label class="cfb-list-item_block" for="filter-{{ filter_group.filter_group_id }}-{{ filter.filter_id }}">
+            <input type="checkbox" name="filter[]" value="{{ filter.filter_id }}" checked="checked" id="filter-{{ filter_group.filter_group_id }}-{{ filter.filter_id }}" class="d-none" />
+            <span class="theme-checkbox">
+              <span class="checkbox-icon"><i class="sprite sprite-tick"><svg><use xlink:href="#tick"></use></svg></i></span>
+              <span>{{ filter.name }}</span>
+            </span>
+          </label>
+        </li>
+        {% else %}
+        <li class="cfb-list-item">
+          <label class="cfb-list-item_block" for="filter-{{ filter_group.filter_group_id }}-{{ filter.filter_id }}">
+            <input type="checkbox" name="filter[]" value="{{ filter.filter_id }}" id="filter-{{ filter_group.filter_group_id }}-{{ filter.filter_id }}" class="d-none" />
+            <span class="theme-checkbox">
+              <span class="checkbox-icon"><i class="sprite sprite-tick"><svg><use xlink:href="#tick"></use></svg></i></span>
+              <span>{{ filter.name }}</span>
+            </span>
+          </label>
+        </li>
+
+           
+
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{% endfor %}
+
+{% if filter_groups %}
+<div style="text-align: center; margin-bottom: 15px;">
+  <button type="button" id="button-filter" class="button">Применить</button>
+</div>
+<div class="cf-details-reset">
+  <button class="cfd-reset-btn" type="button" name="reset"><i class="sprite sprite-reset"><svg><use xlink:href="#reset"></use></svg></i><span class="cfdr-btn-text">Сбросить фильтры</span></button>
+</div>
+{% endif %}
+
+
+<script type="text/javascript">
+
+  $('input[name^=\'filter\']:checked').click(function(){
+    $(this).attr('checked', false);
+    $(this).prop( "checked", false );
+  });
+
+
+$(document).on('click', '#button-filter', function() {
+  filter = [];
+
+  $('input[name^=\'filter\']:checked').each(function(element) {
+    filter.push(this.value);
+  });
+
+  pr = '';
+  if( (typeof $('input[name="price-slider-min"]').val() != "undefined") && (typeof $('input[name="price-slider-max"]').val() != "undefined") ) {
+
+    var min = ($('input[name="price-slider-min"]').val()) ? $('input[name="price-slider-min"]').val().replace(/\s/g, '') : 0;
+    var max = ($('input[name="price-slider-max"]').val()) ? $('input[name="price-slider-max"]').val().replace(/\s/g, '') : 0;
+
+
+    price = parseInt(min) + ',' + parseInt(max);
+
+    if (price != '') {
+      pr = "&pr=" + price;
+    }
+  }
+
+  location = '{{ action }}&filter=' + filter.join(',') + pr;
+});
+
+$(document).on('click', 'button[name^=\'reset\']', function() {
+  location = '{{ action }}';
+});
+ </script>

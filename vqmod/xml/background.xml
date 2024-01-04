@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>Background image change</id>
+	<version>1.4.x and above</version>
+	<vqmver required="true">2.x</vqmver>
+	<author>Adnan Ahmad</author>
+	
+	<file name="admin/language/*/setting/setting.php,admin/language/*/catalog/product.php,admin/language/*/catalog/category.php,admin/language/*/catalog/manufacturer.php,admin/language/*/catalog/information.php">
+		<operation error="skip" info="For non OCMod includes/requires">
+			<search position="after" regex="false"><![CDATA[<?php]]></search>
+			<add><![CDATA[$_['entry_background_image']           = 'Background Image';
+            $_['text_background_positon']           = 'Background Position:';
+            $_['entry_background_positon']          = array(
+                                            'fixed' => 'fixed',
+                                            'cover' => 'cover',
+                                        );
+             $_['text_like_extension']          = 'If you Liked this extension and want to add more Options init then <a href="http://www.opencart.com/index.php?route=extension/extension/info&extension_id=17473" target="_blank">click here</a>';]]></add>
+		</operation>
+		
+	</file>
+
+    <file name="admin/controller/setting/setting.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="after" regex="false"><![CDATA[$this->load->language('setting/setting');]]></search>
+            <add><![CDATA[$data['entry_background_image'] = $this->language->get('entry_background_image');
+            $data['text_background_positon'] = $this->language->get('text_background_positon');
+            $data['entry_background_positon'] = $this->language->get('entry_background_positon');
+            $data['text_like_extension'] = $this->language->get('text_like_extension');]]></add>
+        </operation>
+
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[if (isset($this->request->post['config_icon'])) {]]></search>
+            <add><![CDATA[if (isset($this->request->post['config_background_image_position'])) {
+            $data['config_background_image_position'] = $this->request->post['config_background_image_position'];
+        } else {
+            $data['config_background_image_position'] = $this->config->get('config_background_image_position');
+        }
+
+        if (isset($this->request->post['config_background_image'])) {
+            $data['config_background_image'] = $this->request->post['config_background_image'];
+        } else {
+            $data['config_background_image'] = $this->config->get('config_background_image');
+        }
+
+        if (isset($this->request->post['background_image']) && is_file(DIR_IMAGE . $this->request->post['background_image'])) {
+            $data['background_image'] = $this->model_tool_image->resize($this->request->post['config_logo'], 100, 100);
+        } elseif ($this->config->get('config_background_image') && is_file(DIR_IMAGE . $this->config->get('config_background_image'))) {
+            $data['background_image'] = $this->model_tool_image->resize($this->config->get('config_background_image'), 100, 100);
+        } else {
+            $data['background_image'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+        }]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/view/template/setting/setting.twig">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" offset="1" regex="false"><![CDATA[<label class="col-sm-2 control-label" for="input-icon"><span data-toggle="tooltip" title="{{ help_icon }}">{{ entry_icon }}</span></label>]]></search>
+            <add><![CDATA[<div class="form-group">
+                <label class="col-sm-2 control-label" for="input-icon">{{ entry_background_image }}</label>
+                <div class="col-sm-10"><a href="" id="thumb-background-image" data-toggle="image" class="img-thumbnail"><img src="{{ background_image }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                  <input type="hidden" name="config_background_image" value="{{ config_background_image }}" id="input-background-image" /><strong>{{ text_background_positon }}</strong>
+                  <select  name="config_background_image_position">
+                    <option value="">------</option>
+                    {% for key,value in entry_background_positon %}
+                        <option value="{{ key }}" {{ config_background_image_position == key  ? 'selected' : '' }}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+                <span class="text-success"><?php echo $text_like_extension; ?></span>
+                </div>
+            </div>]]></add>
+        </operation>
+        
+    </file>
+    <file name="catalog/controller/common/header.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[$this->load->language('common/header');]]></search>
+            <add><![CDATA[if (is_file(DIR_IMAGE . $this->config->get('config_background_image'))) {
+            $data['background_image'] = $server . 'image/' . $this->config->get('config_background_image');
+            } else {
+                $data['background_image'] = '';
+            }
+            if ($this->config->get('config_background_image_position')) {
+                $data['config_background_image_position'] = $this->config->get('config_background_image_position');
+            } else {
+                $data['config_background_image_position'] = '';
+            }
+
+            if(isset($this->request->get['path']) AND !isset($this->request->get['product_id'])) {
+                
+                $parts = explode('_', (string)$this->request->get['path']);
+
+                $category_id = (int)array_pop($parts);
+
+                $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND c2s.store_id =0 AND c.status = '1'");
+                
+                if(isset($query->row['config_background_image']) AND !empty($query->row['config_background_image']) ){
+                    $data['background_image'] = $server . 'image/' . $query->row['config_background_image'];
+                }
+                
+                if( isset($query->row['config_background_image_position']) AND !empty($query->row['config_background_image_position']) ){
+                    $data['config_background_image_position'] = $query->row['config_background_image_position'];
+                }       
+
+            }
+
+            if(isset($this->request->get['manufacturer_id'])) {
+
+                $manufacturer_id = $this->request->get['manufacturer_id'];
+
+                $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m.manufacturer_id = '" . (int)$manufacturer_id . "' AND m2s.store_id =0 ");
+                
+                if(isset($query->row['config_background_image']) AND !empty($query->row['config_background_image']) ){
+                    $data['background_image'] = $server . 'image/' . $query->row['config_background_image'];
+                }
+
+                
+                if( isset($query->row['config_background_image_position']) AND !empty($query->row['config_background_image_position']) ){
+                    $data['config_background_image_position'] = $query->row['config_background_image_position'];
+                }
+                    
+
+            }
+
+            if(isset($this->request->get['product_id'])) {
+
+                $product_id = $this->request->get['product_id'];
+
+                $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product p LEFT JOIN " .DB_PREFIX. "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.product_id = '" .(int) $product_id. "' AND p2s.store_id = 0 AND p.status='1'");
+                
+
+                if(isset($query->row['config_background_image']) AND !empty($query->row['config_background_image']) ){
+                    $data['background_image'] = $server . 'image/' . $query->row['config_background_image'];
+                }
+
+                
+                if( isset($query->row['config_background_image_position']) AND !empty($query->row['config_background_image_position']) ){
+                    $data['config_background_image_position'] = $query->row['config_background_image_position'];
+                }
+
+            }
+
+           if(isset($this->request->get['information_id'])) {
+
+                $information_id = $this->request->get['information_id'];
+
+                $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "information_description m LEFT JOIN " . DB_PREFIX . "information_to_store m2s ON (m.information_id = m2s.information_id) WHERE m.information_id = '" . (int)$information_id . "' AND m2s.store_id =0 ");
+
+                if(isset($query->row['config_background_image']) AND !empty($query->row['config_background_image']) ){
+                    $data['background_image'] = $server . 'image/' . $query->row['config_background_image'];
+                }
+
+                
+                if( isset($query->row['config_background_image_position']) AND !empty($query->row['config_background_image_position']) ){
+                    $data['config_background_image_position'] = $query->row['config_background_image_position'];
+                }
+                    
+
+            }
+
+            ]]></add>
+        </operation>
+        
+    </file>
+    <file name="catalog/view/theme/*/template/common/header.twig">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[</head>]]></search>
+            <add><![CDATA[<style type="text/css">
+              body{
+                background:url('{{ background_image }}') no-repeat center top !important;
+               {% if config_background_image_position == 'fixed' %}
+                background-attachment: {{ config_background_image_position }} !important;
+                background-size: cover !important;
+                {% endif %}
+                {% if config_background_image_position == 'cover'  %}
+                -webkit-background-size: {{ config_background_image_position }} !important; 
+                -moz-background-size: {{ config_background_image_position }} !important;
+                -o-background-size: {{ config_background_image_position }} !important;
+                background-size: {{ config_background_image_position }} !important;
+                {% endif %}
+              }
+            </style>]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/controller/catalog/product.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="after" regex="false"><![CDATA[protected function getForm() {]]></search>
+            <add><![CDATA[$db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "product` LIKE 'config_background_image'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."product` ADD  `config_background_image` VARCHAR( 255 ) NOT NULL AFTER  `viewed` ");
+                }
+
+                $db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "product` LIKE 'config_background_image_position'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."product` ADD  `config_background_image_position` VARCHAR( 40 ) NOT NULL AFTER  `viewed` ");
+                }]]></add>
+        </operation>
+
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[if (isset($this->request->post['product_image'])) {]]></search>
+            <add><![CDATA[$data['entry_background_image'] = $this->language->get('entry_background_image');
+                $data['text_background_positon'] = $this->language->get('text_background_positon');
+                $data['entry_background_positon'] = $this->language->get('entry_background_positon');
+                $data['text_like_extension'] = $this->language->get('text_like_extension');
+
+                if (isset($this->request->post['config_background_image_position'])) {
+                    $data['config_background_image_position'] = $this->request->post['config_background_image_position'];
+                } elseif (!empty($product_info)) {
+                    $data['config_background_image_position'] = $product_info['config_background_image_position'];
+                } else {
+                    $data['config_background_image_position'] = '';
+                }
+
+                if (isset($this->request->post['config_background_image'])) {
+                    $data['config_background_image'] = $this->request->post['config_background_image'];
+                } elseif (!empty($product_info)) {
+                    $data['config_background_image'] = $product_info['config_background_image'];
+                } else {
+                    $data['config_background_image'] = '';
+                }
+
+                if (isset($this->request->post['config_background_image']) && is_file(DIR_IMAGE . $this->request->post['config_background_image'])) {
+                    $data['background_image'] = $this->model_tool_image->resize($this->request->post['config_background_image'], 100, 100);
+                } elseif (!empty($product_info) && is_file(DIR_IMAGE . $product_info['config_background_image'])) {
+                    $data['background_image'] = $this->model_tool_image->resize($product_info['config_background_image'], 100, 100);
+                } else {
+                    $data['background_image'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+                }]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/view/template/catalog/product_form.twig,admin/view/template/catalog/category_form.twig,admin/view/template/catalog/information_form.twig,admin/view/template/catalog/manufacturer_form.twig">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" offset="1" regex="false"><![CDATA[<label class="col-sm-2 control-label">{{ entry_store }}</label>]]></search>
+            <add><![CDATA[<div class="form-group">
+                <label class="col-sm-2 control-label" for="input-icon">{{ entry_background_image }}</label>
+                <div class="col-sm-10"><a href="" id="thumb-background-image" data-toggle="image" class="img-thumbnail"><img src="{{ background_image }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                  <input type="hidden" name="config_background_image" value="{{ config_background_image}} " id="input-background-image" /><strong>{{ text_background_positon }}</strong>
+                  <select name="config_background_image_position">
+                    <option value="">-----</option>
+                    {% for key,value in entry_background_positon %}
+                     <option value="{{ key }}" {{ config_background_image_position == key ? 'selected' : "" }} >{{ value }}</option>
+                    {% endfor %}
+                </select>
+                <span class="text-success">{{ text_like_extension }}</span>
+                </div>
+            </div>]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/model/catalog/product.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="replace" regex="false"><![CDATA[model = '" . $this->db->escape($data['model']) . "',]]></search>
+            <add><![CDATA[model = '" . $this->db->escape($data['model']) . "', config_background_image_position = '" . $this->db->escape($data['config_background_image_position']) . "', config_background_image = '" . $this->db->escape($data['config_background_image']) . "',]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/controller/catalog/category.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="after" regex="false"><![CDATA[protected function getForm() {]]></search>
+            <add><![CDATA[$db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "category` LIKE 'config_background_image'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."category` ADD  `config_background_image` VARCHAR( 255 ) NOT NULL AFTER  `status` ");
+                }
+
+                $db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "category` LIKE 'config_background_image_position'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."category` ADD  `config_background_image_position` VARCHAR( 40 ) NOT NULL AFTER  `status` ");
+                }]]></add>
+        </operation>
+
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[if (isset($this->request->post['top'])) {]]></search>
+            <add><![CDATA[$data['entry_background_image'] = $this->language->get('entry_background_image');
+                $data['text_background_positon'] = $this->language->get('text_background_positon');
+                $data['entry_background_positon'] = $this->language->get('entry_background_positon');
+                $data['text_like_extension'] = $this->language->get('text_like_extension');
+
+                if (isset($this->request->post['config_background_image_position'])) {
+                    $data['config_background_image_position'] = $this->request->post['config_background_image_position'];
+                } elseif (!empty($category_info)) {
+                    $data['config_background_image_position'] = $category_info['config_background_image_position'];
+                } else {
+                    $data['config_background_image_position'] = '';
+                }
+
+                if (isset($this->request->post['config_background_image'])) {
+                    $data['config_background_image'] = $this->request->post['config_background_image'];
+                } elseif (!empty($category_info)) {
+                    $data['config_background_image'] = $category_info['config_background_image'];
+                } else {
+                    $data['config_background_image'] = '';
+                }
+
+                if (isset($this->request->post['config_background_image']) && is_file(DIR_IMAGE . $this->request->post['config_background_image'])) {
+                    $data['background_image'] = $this->model_tool_image->resize($this->request->post['config_background_image'], 100, 100);
+                } elseif (!empty($category_info) && is_file(DIR_IMAGE . $category_info['config_background_image'])) {
+                    $data['background_image'] = $this->model_tool_image->resize($category_info['config_background_image'], 100, 100);
+                } else {
+                    $data['background_image'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+                }]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/model/catalog/category.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="replace" regex="false"><![CDATA[parent_id = '" . (int)$data['parent_id'] . "',]]></search>
+            <add><![CDATA[parent_id = '" . (int)$data['parent_id'] . "', config_background_image_position = '" . $this->db->escape($data['config_background_image_position']) . "', config_background_image = '" . $this->db->escape($data['config_background_image']) . "',]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/controller/catalog/manufacturer.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="after" regex="false"><![CDATA[protected function getForm() {]]></search>
+            <add><![CDATA[$db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "manufacturer` LIKE 'config_background_image'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."manufacturer` ADD  `config_background_image` VARCHAR( 255 ) NOT NULL ");
+                }
+
+                $db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "manufacturer` LIKE 'config_background_image_position'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."manufacturer` ADD  `config_background_image_position` VARCHAR( 40 ) NOT NULL ");
+                }]]></add>
+        </operation>
+
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[if (isset($this->request->post['sort_order'])) {]]></search>
+            <add><![CDATA[$data['entry_background_image'] = $this->language->get('entry_background_image');
+                $data['text_background_positon'] = $this->language->get('text_background_positon');
+                $data['entry_background_positon'] = $this->language->get('entry_background_positon');
+                $data['text_like_extension'] = $this->language->get('text_like_extension');
+
+                if (isset($this->request->post['config_background_image_position'])) {
+                    $data['config_background_image_position'] = $this->request->post['config_background_image_position'];
+                } elseif (!empty($manufacturer_info)) {
+                    $data['config_background_image_position'] = $manufacturer_info['config_background_image_position'];
+                } else {
+                    $data['config_background_image_position'] = '';
+                }
+
+                if (isset($this->request->post['config_background_image'])) {
+                    $data['config_background_image'] = $this->request->post['config_background_image'];
+                } elseif (!empty($manufacturer_info)) {
+                    $data['config_background_image'] = $manufacturer_info['config_background_image'];
+                } else {
+                    $data['config_background_image'] = '';
+                }
+
+                if (isset($this->request->post['config_background_image']) && is_file(DIR_IMAGE . $this->request->post['config_background_image'])) {
+                    $data['background_image'] = $this->model_tool_image->resize($this->request->post['config_background_image'], 100, 100);
+                } elseif (!empty($manufacturer_info) && is_file(DIR_IMAGE . $manufacturer_info['config_background_image'])) {
+                    $data['background_image'] = $this->model_tool_image->resize($manufacturer_info['config_background_image'], 100, 100);
+                } else {
+                    $data['background_image'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+                }]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/model/catalog/manufacturer.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="replace" regex="false"><![CDATA[name = '" . $this->db->escape($data['name']) . "',]]></search>
+            <add><![CDATA[name = '" . $this->db->escape($data['name']) . "', config_background_image_position = '" . $this->db->escape($data['config_background_image_position']) . "', config_background_image = '" . $this->db->escape($data['config_background_image']) . "',]]></add>
+        </operation>
+        
+    </file>
+
+
+    <!-- Information page work -->
+
+    <file name="admin/controller/catalog/information.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="after" regex="false"><![CDATA[protected function getForm() {]]></search>
+            <add><![CDATA[$db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "information_description` LIKE 'config_background_image'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."information_description` ADD  `config_background_image` VARCHAR( 255 ) NOT NULL ");
+                }
+
+                $db_check = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "information_description` LIKE 'config_background_image_position'");
+                if (!$db_check->num_rows) {
+                    $this->db->query("ALTER TABLE  `".DB_PREFIX."information_description` ADD  `config_background_image_position` VARCHAR( 40 ) NOT NULL ");
+                }
+                ]]></add>
+        </operation>
+
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="before" regex="false"><![CDATA[$this->load->model('design/layout');]]></search>
+            <add><![CDATA[
+        $data['entry_background_image'] = $this->language->get('entry_background_image');
+        $data['text_background_positon'] = $this->language->get('text_background_positon');
+        $data['entry_background_positon'] = $this->language->get('entry_background_positon');
+        $data['text_like_extension'] = $this->language->get('text_like_extension');
+        
+        $this->load->model('tool/image');
+
+        if (isset($this->request->post['config_background_image_position'])) {
+            $data['config_background_image_position'] = $this->request->post['config_background_image_position'];
+        } elseif (isset($data['information_description'][1]['config_background_image_position']) AND !empty($data['information_description'])) {
+            $data['config_background_image_position'] = $data['information_description'][1]['config_background_image_position'];
+        } else {
+            $data['config_background_image_position'] = '';
+        }
+
+        if (isset($this->request->post['config_background_image'])) {
+            $data['config_background_image'] = $this->request->post['config_background_image'];
+        } elseif (isset($data['information_description'][1]['config_background_image']) AND !empty($information_info)) {
+            $data['config_background_image'] = $data['information_description'][1]['config_background_image'];
+        } else {
+            $data['config_background_image'] = '';
+        }
+
+        if (isset($this->request->post['background_image']) && is_file(DIR_IMAGE . $this->request->post['background_image'])) {
+            $data['background_image'] = $this->model_tool_image->resize($this->request->post['background_image'], 100, 100);
+        } elseif (isset($data['information_description'][1]['config_background_image']) && is_file(DIR_IMAGE . $data['information_description'][1]['config_background_image'])) {
+            $data['background_image'] = $this->model_tool_image->resize($data['information_description'][1]['config_background_image'], 100, 100);
+        } else {
+            $data['background_image'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+        }
+        ]]></add>
+        </operation>
+        
+    </file>
+
+    <file name="admin/model/catalog/information.php">
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="replace" regex="false"><![CDATA[meta_title = '" . $this->db->escape($value['meta_title']) . "',]]></search>
+            <add><![CDATA[meta_title = '" . $this->db->escape($value['meta_title']) . "', config_background_image_position = '" . $this->db->escape($data['config_background_image_position']) . "', config_background_image = '" . $this->db->escape($data['config_background_image']) . "',]]></add>
+        </operation>
+
+        <operation error="skip" info="For non OCMod includes/requires">
+            <search position="after" regex="false"><![CDATA[$information_description_data[$result['language_id']] = array(]]></search>
+            <add><![CDATA['config_background_image_position'            => $result['config_background_image_position'],
+                'config_background_image'            => $result['config_background_image'],]]></add>
+               
+        </operation>
+        
+    </file>
+    
+    <!-- end information page work -->
+    
+</modification>

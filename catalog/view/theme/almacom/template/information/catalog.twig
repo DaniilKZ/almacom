@@ -1,0 +1,106 @@
+{{ header }}
+
+<!-- SPEEDBAR-->
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+    {% for breadcrumb in breadcrumbs %}
+      {% if loop.index != breadcrumbs|length %}
+      <a class="speedbar-link" href="{{ breadcrumb.href }}">
+        <span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+      </a>
+      {% else %}
+      <span class="speedbar-end">{{ breadcrumb.text }}</span>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<div class="theme-container">
+  <div class="theme-container-in wrapper">
+    <main class="content-main" style="margin-left:0">
+      <!-- CATALOG CONTENT-->
+      <div class="catalog_content">
+        <h1 class="content-heading">{{ heading_title }}</h1>
+        <div class="catalog_content-text">
+          <p>{{ description }}</p>
+        </div>
+        <ul class="catalog_content-list">
+          {% for category in categories %}
+            <li class="cc-list-item">
+              <a class="card_catalog" href="{{ category.href }}">
+                <div class="card_catalog-image">
+                {% if category.thumb %}
+                  <img src="{{ category.thumb }}" alt="{{ category.name }}">
+                {% else %}
+                  <img src="catalog/view/theme/almacom/pic/catalog/catalog-2.jpg" alt="{{ category.name }}">
+                {% endif %}
+                </div>
+                <div class="card_catalog-name">
+                  <span>{{ category.name }}</span>
+                </div>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </main>
+    <!-- CATEGORY BANNER-->
+    <div class="category_banner">
+      <div class="banner">
+        <div class="banner-pic"><img src="catalog/view/theme/almacom/img/girl-with-phone.png" alt=""></div>
+        <div class="banner-text">
+          <p class="banner-text-title">Не хотите выбирать?</p>
+          <p class="banner-text-main">Наши специалисты работают для вас 24/7 что-бы вы смогли в любое время купить необходимую вам продукцию нашей компании. Оставьте заявку и мы вам перезвоним</p>
+          <div class="banner-text-buttons"><a class="bt-buttons-btn order-a-call">Обратный звонок</a><a class="bt-buttons-btn bt-buttons-btn_ol" href="index.php?route=information/contact">Как до нас добраться?</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form action="?" class="map-info-form" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls">
+        <label>
+          <p class="mif-controls-title">Ваше имя</p>
+          <input type="text" name="your_name" value="" placeholder="Ваше имя">
+        </label>
+        <label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p>
+          <input type="tel" name="your_phone" value="" placeholder="+7">
+        </label>
+        <label>
+          <p class="mif-controls-title">Ваше сообщение</p>
+          <input type="text" name="your_message" value="" placeholder="Сообщение...">
+        </label>
+      </div>
+      <div class="mi-form-buttons">
+        <button class="button" type="submit">Отправить</button>
+        <div class="g-recaptcha-container">
+                    <div class="g-recaptcha-item" id="recaptchaMain"></div>
+                    <div class="recaptcha-error d-none"></div>
+                </div>
+      </div>
+    </form>
+  </div>
+</section>
+{{ footer }}

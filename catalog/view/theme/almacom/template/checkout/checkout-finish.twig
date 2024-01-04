@@ -1,0 +1,532 @@
+{{ header }}
+
+
+
+
+
+<div>
+  <div id="collapse-shipping-address">
+    <div id="collapse-payment-address">
+      <div >
+
+        <div id="guest"></div>
+
+        <form class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-shipping-address-1">Адрес 1</label>
+            <div class="col-sm-10">
+              <input type="text" name="address_1" value="Адрес" placeholder="Адрес 1" id="input-shipping-address-1" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-shipping-city">Город</label>
+            <div class="col-sm-10">
+              <input type="text" name="city" value="Город" placeholder="Город" id="input-shipping-city" class="form-control">
+            </div>
+          </div>
+        </form>
+        <div  id="collapse-shipping-method">
+          <div id="shipping_method">
+            <p>Выберите удобный способ доставки для этого заказа</p><p><strong>Бесплатная доставка</strong></p>
+            <div class="radio">
+              <label><input type="radio" name="shipping_method" value="free.free" checked="checked">Бесплатная доставка -0тг</label>
+            </div>
+            <p><strong>Самовывоз</strong></p>
+            <div class="radio">
+              <label><input type="radio" name="shipping_method" value="pickup.pickup">Самовывоз из магазина -0тг</label>
+            </div>
+           
+            <input type="checkbox" name="shipping_address" value="1" checked="checked" />
+          </div>
+        </div>
+
+        <div id="payment_method">
+          <div id="collapse-payment-method">
+          <p>Выберите способ оплаты для этого заказа</p>
+          <div class="radio">
+            <label><input type="radio" name="payment_method" value="bank_transfer" checked="checked">Банковский перевод </label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="payment_method" value="cod">Оплата при доставке </label>
+          </div>
+        </div>
+        </div>
+
+        <div id="collapse-checkout-confirm"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="payment_method">
+</div>
+
+
+<div class="buttons">
+  <div class="pull-right">
+    <input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+</div>
+
+
+<script type="text/javascript">
+        //checkout/login
+        $.ajax({
+            url: 'index.php?route=checkout/login',
+            dataType: 'html',
+            success: function(html) {
+              console.log('Login инициализировался.'); 
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        //checkout/login
+
+        //checkout/guest
+        $.ajax({
+            url: 'index.php?route=checkout/guest',
+            dataType: 'html',
+            beforeSend: function() {
+                // $('#button-account').button('loading');
+            },
+            complete: function() {
+                // $('#button-account').button('reset');
+            },
+            success: function(html) { 
+                $('#guest').html(html);
+                console.log('guest Инициализировался');
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        //checkout/guest
+
+
+        //payment_method
+        $.ajax({
+          url: 'index.php?route=checkout/payment_method',
+          dataType: 'html',
+          success: function(html) {
+            console.log('Init payment_method');
+
+               $.ajax({
+                    url: 'index.php?route=checkout/payment_method/save',
+                    type: 'post',
+                    data: $('#collapse-payment-method input[type=\'radio\']:checked, #collapse-payment-method input[type=\'checkbox\']:checked, #collapse-payment-method textarea'),
+                    dataType: 'json',
+                    beforeSend: function() {
+                    },
+                    success: function(json) {
+                        if (json['redirect']) {
+                            location = json['redirect'];
+                        } else if (json['error']) {
+                            $('#button-payment-method').button('reset');
+                            
+                            if (json['error']['warning']) {
+                                alert(json['error']['warning']);
+                            }
+                        } else {
+                            $.ajax({
+                                url: 'index.php?route=checkout/shipping_method',
+                                dataType: 'html',
+                                complete: function() {
+                                    $('#button-guest').button('reset');
+                                },
+                                success: function(html) {
+
+                                    //Метод доставки
+                                    $.ajax({
+                                        url: 'index.php?route=checkout/guest_shipping',
+                                        dataType: 'html',
+                                        success: function(html) {
+                                        $.ajax({
+                                            url: 'index.php?route=checkout/shipping_method/save',
+                                            type: 'post',
+                                            data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
+                                            dataType: 'json',
+                                            beforeSend: function() {
+                                        },
+                                            success: function(json) {
+
+                                                if (json['redirect']) {
+                                                    location = json['redirect'];
+                                                } else if (json['error']) {
+                                                    $('#button-shipping-method').button('reset');
+
+                                                    if (json['error']['warning']) {
+                                                        alert(json['error']['warning']);
+                                                    }
+                                                } else {
+                                                    $.ajax({
+                                                        url: 'index.php?route=checkout/payment_method',
+                                                        dataType: 'html',
+                                                        complete: function() {
+                                                            $('#button-shipping-method').button('reset');
+                                                        },
+                                                        success: function(html) {
+//confir
+                            $.ajax({
+                                url: 'index.php?route=checkout/confirm',
+                                dataType: 'html',
+                                complete: function() {
+                                },
+                                success: function(html) {
+                                  $('#collapse-checkout-confirm').html(html);
+                                  console.log('confirm Успешно');
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+//confir
+                                                        },
+                                                        error: function(xhr, ajaxOptions, thrownError) {
+                                                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                                        }
+                                                    });
+                                                }
+                                            },
+                                            error: function(xhr, ajaxOptions, thrownError) {
+                                                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                            }
+                                        });
+                                        //Метод доставки
+
+
+
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                        }
+                                    }); 
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+
+
+
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+        });
+        //payment_method
+
+</script>
+
+
+
+
+
+
+
+<!-- 
+
+<script type="text/javascript">
+        //checkout/login
+        $.ajax({
+            url: 'index.php?route=checkout/login',
+            dataType: 'html',
+            success: function(html) {
+              console.log('login WORK');
+               // $('#collapse-checkout-option .panel-body').html(html);  
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        //checkout/login
+
+        //checkout/guest
+        $.ajax({
+            url: 'index.php?route=checkout/guest',
+            dataType: 'html',
+            beforeSend: function() {
+                // $('#button-account').button('loading');
+            },
+            complete: function() {
+                // $('#button-account').button('reset');
+            },
+            success: function(html) { 
+                $('#guest').html(html);
+                console.log('guest work');
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        //checkout/guest
+
+
+
+                 //Способ доставки INIT
+                $.ajax({
+                    url: 'index.php?route=checkout/payment_method',
+                    dataType: 'html',
+                    complete: function() {
+                    },
+                    success: function(html) {
+                        // $('#collapse-payment-method .panel-body').html(html);
+                        console.log('payment_method init');
+
+                        //Способ доставки
+                              $.ajax({
+                                  url: 'index.php?route=checkout/payment_method/save',
+                                  type: 'post',
+                                  data: $('#collapse-payment-method input[type=\'radio\']:checked, #collapse-payment-method input[type=\'checkbox\']:checked, #collapse-payment-method textarea'),
+                                  dataType: 'json',
+                                  beforeSend: function() {
+                                    $('#button-payment-method').button('loading');
+                                  },
+                                  success: function(json) { 
+                                    console.log('route=checkout/payment_method/save SUCC');
+                                    console.log(': json ', json);
+
+                                      if (json['redirect']) {
+                                          location = json['redirect'];
+                                      } else if (json['error']) { 
+                                          
+                                          if (json['error']['warning']) {
+                                              alert(json['error']['warning'] );
+                                          }
+                                      } else {
+                                          $.ajax({
+                                              url: 'index.php?route=checkout/confirm',
+                                              dataType: 'html',
+                                              complete: function() {
+                                                  $('#button-payment-method').button('reset');
+                                              },
+                                              success: function(html) {
+                                                  $('#collapse-checkout-confirm').html(html);
+                                                  console.log('checkout/confirm SUCC')
+                                              },
+                                              error: function(xhr, ajaxOptions, thrownError) {
+                                                  alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                              }
+                                          });
+                                      }
+                                  },
+                                  error: function(xhr, ajaxOptions, thrownError) {
+                                      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                  }
+                              });
+                //Способ доставки
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+                 //Способ доставки INIT
+
+                
+
+
+
+$('#button-confirm').on('click', function() {
+              //checkout/guest/save
+                  $.ajax({
+                      url: 'index.php?route=checkout/guest/save',
+                      type: 'post',
+                      data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
+                      dataType: 'json',
+                      beforeSend: function() {
+                    },
+                      success: function(json) {
+                          if (json['redirect']) {
+                              location = json['redirect'];
+                          } else if (json['error']) { 
+                              if (json['error']['warning']) {
+                                alert(json['error']['warning']);
+                              }
+
+                          for (i in json['error']) {
+                            var element = $('#input-payment-' + i.replace('_', '-'));
+
+                            if ($(element).parent().hasClass('input-group')) {
+                              alert(json['error'][i]);
+                            } else {
+                              alert(json['error'][i]);
+                            }
+                          }
+                          } else {
+
+                              {% if shipping_required %}
+                              var shipping_address = $('#collapse-payment-address input[name=\'shipping_address\']:checked').prop('value');
+
+                                                
+              if (shipping_address) {
+                    $.ajax({
+                        url: 'index.php?route=checkout/shipping_method',
+                        dataType: 'html',
+                        complete: function() {
+                            $('#button-guest').button('reset');
+                        },
+                        success: function(html) {
+                        // Add the shipping address
+                            $.ajax({
+                                url: 'index.php?route=checkout/guest_shipping',
+                                dataType: 'html',
+                                success: function(html) {
+                                    // $('#collapse-shipping-address .panel-body').html(html);
+                                    console.log('checkout/shipping_method SUSS');
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+                          // $('#collapse-shipping-method .panel-body').html(html);
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                } else {
+                                  $.ajax({
+                                      url: 'index.php?route=checkout/guest_shipping',
+                                      dataType: 'html',
+                                      complete: function() {
+                                          $('#button-guest').button('reset');
+                                      },
+                                      success: function(html) {
+                                          // $('#collapse-shipping-method').html(html);
+                                          console.log('checkout/guest_shipping suss');
+                                      },
+                                      error: function(xhr, ajaxOptions, thrownError) {
+                                          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                      }
+                                  });
+                              }
+                              {% else %}
+                              $.ajax({
+                                  url: 'index.php?route=checkout/payment_method',
+                                  dataType: 'html',
+                                  complete: function() {
+                                  },
+                                  success: function(html) {
+                                      // $('#collapse-payment-method .panel-body').html(html);
+                                      console.log('checkout/payment_method suss');
+                                  },
+                                  error: function(xhr, ajaxOptions, thrownError) {
+                                      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                  }
+                              });
+                              {% endif %} //shipping_required
+
+
+                             //shiping-method-button Способ доставки
+                              $.ajax({
+                                  url: 'index.php?route=checkout/guest_shipping/save',
+                                  type: 'post',
+                                  data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
+                                  dataType: 'json',
+                                  beforeSend: function() {
+                                  },
+                                  success: function(json) {
+                                      if (json['redirect']) {
+                                          location = json['redirect'];
+                                      } else if (json['error']) {
+                                          if (json['error']['warning']) {
+                                              alert(json['error']['warning']);
+                                          }
+                                          for (i in json['error']) {
+                                            var element = $('#input-shipping-' + i.replace('_', '-'));
+
+                                            if ($(element).parent().hasClass('input-group')) {
+                                             alert(json['error'][i]);
+                                            } else {
+                                              alert(json['error'][i]);
+                                            }
+                                          }
+                                      } else {
+                                          $.ajax({
+                                              url: 'index.php?route=checkout/shipping_method',
+                                              dataType: 'html',
+                                              complete: function() {
+                                                  $('#button-guest-shipping').button('reset');
+                                              },
+                                              success: function(html) {
+                                                  // $('#shipping_method').html(html);
+                                                  console.log('Способ доставки INIT')
+                                              },
+                                              error: function(xhr, ajaxOptions, thrownError) {
+                                                  alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                              }
+                                          });
+                                      }
+                                  },
+                                  error: function(xhr, ajaxOptions, thrownError) {
+                                      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                  }
+                              });
+                             //shiping-method-button Способ доставки
+
+                             //Способ оплаты
+                            $.ajax({
+                                url: 'index.php?route=checkout/shipping_method/save',
+                                type: 'post',
+                                data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
+                                dataType: 'json',
+                                beforeSend: function() {
+                                },
+                                success: function(json) {
+                                    if (json['redirect']) {
+                                        location = json['redirect'];
+                                    } else if (json['error']) {
+                                        $('#button-shipping-method').button('reset');
+
+                                        if (json['error']['warning']) {
+                                            alert(json['error']['warning']);
+                                        }
+                                    } else {
+                                        $.ajax({
+                                            url: 'index.php?route=checkout/payment_method',
+                                            dataType: 'html',
+                                            complete: function() {
+                                            },
+                                            success: function(html) {
+                                                $('#payment_method').html(html);
+                                                console.log('checkout/payment_method SUCC Способ оплаты INIT');
+                                            },
+                                            error: function(xhr, ajaxOptions, thrownError) {
+                                                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+                             //Способ оплаты
+
+          
+                             console.log('checkout/guest/save SUSS no err');
+                          }
+                      },
+                      error: function(xhr, ajaxOptions, thrownError) {
+                          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                      }
+                  });
+              //checkout/guest/save
+});
+
+</script> -->
+
+
+{{ footer }}

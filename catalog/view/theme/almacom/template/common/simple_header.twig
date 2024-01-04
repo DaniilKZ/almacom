@@ -1,0 +1,15 @@
+{{ header }}
+ 
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+    {% for breadcrumb in breadcrumbs %}
+      {% if loop.index != breadcrumbs|length %}
+      <a class="speedbar-link" href="{{ breadcrumb.href }}">
+        <span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+      </a>
+      {% else %}
+      <span class="speedbar-end">{{ breadcrumb.text }}</span>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>

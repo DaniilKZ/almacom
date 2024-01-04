@@ -1,0 +1,150 @@
+{{ header }}
+
+<!-- SPEEDBAR-->
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+	{% for breadcrumb in breadcrumbs %}
+	  {% if loop.index != breadcrumbs|length %}
+	  <a class="speedbar-link" href="{{ breadcrumb.href }}">
+		<span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+	  </a>
+	  {% else %}
+	  <span class="speedbar-end">{{ breadcrumb.text }}</span>
+	  {% endif %}
+	{% endfor %}
+  </div>
+</section>
+
+<div class="theme-container">
+	<div class="theme-container-in wrapper">
+		<!-- CONTACTS -->
+		<div class="contacts_main">
+			<h1 class="cart_main-title">Наши контакты</h1>
+			<div class="contacts-tabs">
+				<button class="contacts-tabs-btn active" data-for="data-almaty">Алматы</button>
+				<button class="contacts-tabs-btn" data-for="data-astana">Нур-Султан</button>
+			</div>
+			<div class="contacts-data" id="data-almaty">
+				<div class="contacts-data-text">
+					<div class="cod-text-loc">
+						<div class="cod-text-loc_icon"><span class="codt-loc_icon-wrapper"><i class="sprite sprite-location-white"><svg><use xlink:href="#location-white"></use></svg></i></span></div>
+						<div class="cod-text-loc_info">
+							<p class="codt-loc-name">Салон "Климат"</p>
+							<p class="codt-loc-address">г. Алматы, Муратбаева 164/110, уг. ул. Карасай батыра</p>
+							<p class="codt-loc-time">с 09:00 до 18:00</p>
+						</div>
+					</div>
+					<div class="cod-text-tel">
+						<div class="cod-text-tel_icon"><span class="codt-tel_icon-wrapper">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+</svg>
+						</span></div>
+						<div class="cod-text-tel_info">
+							<div class="cod-text-tel_block">
+								<p class="cod-text-title">Отдел продаж:</p><a class="codt-tel-phone" href="tel:+77012222128">+7 (701) 222-21-28</a>
+							</div>
+<!-- 							<div class="cod-text-tel_block">
+								<p class="cod-text-title">Обслуживания и монтаж кондиционеров:</p><a class="codt-tel-phone" href="tel:+77012222137">+7-701-2222-137</a><br><a class="codt-tel-phone" href="tel:+77272337073">+7-727-233-70-73</a>
+							</div> -->
+						</div>
+					</div>
+					<div class="cod-text-email">
+						<div class="cod-text-email_icon"><span class="codt-email_icon-wrapper"><i class="sprite sprite-mail"><svg><use xlink:href="#mail"></use></svg></i></span></div>
+						<div class="cod-text-email_info">
+							<div class="cod-text-title">Наш email:</div><a class="cod-text-email" href="mailto:shop@almacom.kz">shop@almacom.kz</a>
+						</div>
+					</div>
+					<div class="cod-text-socials">
+						<p class="codt-socials-title">Мы в соц. сетях:</p>
+						<div class="codt-socials-items"><a class="codts-items-insta sprite sprite-insta-bg" href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></div>
+					</div>
+				</div>
+				<div class="contacts-data-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2906.102198566741!2d76.91737661505871!3d43.249279879137276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836eb54258ef45%3A0xad3070577922d8fe!2z0YPQu9C40YbQsCDQnNGD0YDQsNGC0LHQsNC10LLQsCAxNjQsINCQ0LvQvNCw0YLRiyAwNTAwMDA!5e0!3m2!1sru!2skz!4v1614845757534!5m2!1sru!2skz" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+			</div>
+
+			<div class="contacts-data" id="data-astana">
+				<div class="contacts-data-text">
+					<div class="cod-text-loc">
+						<div class="cod-text-loc_icon"><span class="codt-loc_icon-wrapper"><i class="sprite sprite-location-white"><svg><use xlink:href="#location-white"></use></svg></i></span></div>
+						<div class="cod-text-loc_info">
+							<p class="codt-loc-name">Филиал ТОО Алмаком-Астана</p>
+							<p class="codt-loc-address">г. Нур-Султан, ул. Пушкина 42, База "Модуль", офис 9</p>
+							<p class="codt-loc-time">с 10:00 до 22:00</p>
+						</div>
+					</div>
+					<div class="cod-text-tel">
+						<div class="cod-text-tel_icon"><span class="codt-tel_icon-wrapper"><i class="sprite sprite-tel-white"><svg><use xlink:href="#phone"></use></svg></i></span></div>
+						<div class="cod-text-tel_info">
+							<div class="cod-text-tel_block">
+								<p class="cod-text-title">Отдел продаж:</p><a class="codt-tel-phone" href="tel:+77761318555">+7 (776) 131-85-55</a>
+							</div>
+{# 						<!-- 	<div class="cod-text-tel_block">
+								<p class="cod-text-title">Обслуживания и монтаж кондиционеров:</p><a class="codt-tel-phone" href="tel:+77012222137">+7-701-2222-137</a><br><a class="codt-tel-phone" href="tel:+77272337073">+7-727-233-70-73</a>
+							</div> --> #}
+						</div>
+					</div>
+					<div class="cod-text-email">
+						<div class="cod-text-email_icon"><span class="codt-email_icon-wrapper"><i class="sprite sprite-mail"><svg><use xlink:href="#mail"></use></svg></i></span></div>
+						<div class="cod-text-email_info">
+							<div class="cod-text-title">Наш email:</div><a class="cod-text-email" href="mailto:shop.tse@almacom.kz">shop.tse@almacom.kz</a>
+						</div>
+					</div>
+					<div class="cod-text-socials">
+						<p class="codt-socials-title">Мы в соц. сетях:</p>
+						<div class="codt-socials-items"><a class="codts-items-insta sprite sprite-insta-bg" href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></div>
+					</div>
+				</div>
+				<div class="contacts-data-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2501.238390555543!2d71.48566671575793!3d51.17782897958222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x424581aa113338b7%3A0x24cef52d55e4fccf!2z0YPQuy4g0JDQu9C10LrRgdCw0L3QtNGA0LAg0J_Rg9GI0LrQuNC90LAgNDIsINCd0YPRgC3QodGD0LvRgtCw0L0gMDIwMDAw!5e0!3m2!1sru!2skz!4v1620538665491!5m2!1sru!2skz" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form action="?" class="map-info-form" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls">
+        <label>
+          <p class="mif-controls-title">Ваше имя</p>
+          <input type="text" name="your_name" value="" placeholder="Ваше имя">
+        </label>
+        <label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p>
+          <input type="tel" name="your_phone" value="" placeholder="+7">
+        </label>
+        <label>
+          <p class="mif-controls-title">Ваше сообщение</p>
+          <input type="text" name="your_message" value="" placeholder="Сообщение...">
+        </label>
+      </div>
+      <div class="mi-form-buttons">
+        <button class="button" type="submit">Отправить</button>
+        <div class="g-recaptcha-container">
+                    <div class="g-recaptcha-item" id="recaptchaMain"></div>
+                    <div class="recaptcha-error d-none"></div>
+                </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{ footer }}

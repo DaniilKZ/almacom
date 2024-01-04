@@ -1,0 +1,419 @@
+{% if not ajax and not popup and not as_module %}
+{% set simple_page = 'simplecheckout' %}
+{% set heading_title = heading_title  ~ (display_weight ? '&nbsp;(<span id="weight">' ~ weight  ~ '</span>)' : '') %}
+{% include simple_header %}
+
+
+
+
+
+<div class="theme-container">
+  <div class="theme-container-in wrapper">
+    <div class="cart-form">
+      <main class="cart-main">
+        <!-- FINAL MAIN-->
+        <div class="final_main">
+          <div class="cart_main">
+            <h1 class="cart_main-title">{{ heading_title }}</h1>
+ 
+            <div class="final_main-steps">
+              <div class="fm-steps-step">
+                <div class="fms-step-title">1. Контактные данные</div>
+                <div class="fms-step-inputs">
+
+                </div>
+              </div>
+              <div class="fm-steps-step" id="receipt-method">
+                <div class="fms-step-title">2. Способ получения</div>
+                <div class="fms-step-receipt">
+                  <div class="fmss-receipt-radios" id="collapse-shipping-method">
+                    <label class="theme-radio">
+                      <input class="d-none" type="radio" id="delivery" name="shipping_method" value="free.free" >
+                      <span for="delivery" class="delivery-button radio-text">Доставка</span>
+                    </label>
+                    <label class="theme-radio">
+                      <input type="radio"  class="d-none" id="selfpick" name="shipping_method" value="pickup.pickup" checked="checked"> 
+                      <span for="selfpick" class="delivery-button radio-text">Самовывоз</span>
+                    </label>
+                  <input type="checkbox" class="d-none" name="shipping_address" value="1" checked="checked" />
+                  </div>
+                  <div class="fmss-receipt-options">
+                    <div class="fmssr-options-delivery delivery-block" data-for="delivery">
+            
+                      <div class="form-group required">
+                        <label for="input-shipping-address-1">Адрес* 
+                          <input type="text" name="address_1" value="Адрес" placeholder="Адрес 1" id="input-shipping-address-1" class="">
+                        </label>
+
+                        <label for="input-shipping-city">Город*
+                          <input type="text" name="city" value="Город" placeholder="Город" id="input-shipping-city" class="">
+                        </label>
+                      </div> 
+        
+                    </div>
+                    <div class="fmssr-options-selfpick delivery-block" data-for="selfpick">
+                      <div class="selfpick-address">
+                        <div class="selfpick-address-text">
+                          <p class="sa-text-name">Салон "Климат"</p>
+                          <p class="sa-text-location">г. Алматы, Муратбаева 164/110, уг. ул. Карасай батыра</p>
+                          <div class="sa-text-time">
+                            <p class="sat-time-open">Работает</p>
+                            <p class="sat-time-hours">с 10:00 до 22:00</p>
+                          </div>
+                        </div>
+                        <div class="selfpick-address-map">
+                          <div class="sa-map-in"><img src="catalog/view/theme/almacom/img/cart-final-step-map.png" alt=""></div>
+                          <div class="sa-map-button"><span class="sam-button-btn">Кликните, чтобы увеличить</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="fm-steps-step">
+                <div class="fms-step-title">3. Подтверждение и оплата</div>
+                <div class="fms-step-payment">
+                  <p class="fmss-payment-title">Выберите способ оплаты</p>
+                  <div class="fmss-payment-radios" id="collapse-payment-method">
+                    <label class="theme-radio">
+                      <input checked class="d-none" type="radio" name="payment_method" id="cod" value="cod"> 
+                      <span for="cod" class="radio-text payment_button">При получении</span>
+                    </label>
+                    <label class="theme-radio">
+                      <input class="d-none" type="radio" name="payment_method" id="bank_transfer" value="bank_transfer"> 
+                      <span for="bank_transfer" class="radio-text payment_button">Банковской картой онлайн</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+<style>
+    {% if left_column_width %}
+        @media only screen and (min-width:1024px) {
+            .simplecheckout-left-column {
+                width: {{ left_column_width }}%;
+            }
+        }
+    {% endif %}
+    {% if right_column_width %}
+        @media only screen and (min-width:1024px) {
+            .simplecheckout-right-column {
+                width: {{ right_column_width }}%;
+            }
+        }
+    {% endif %}
+    {% if customer_with_payment_address %}
+        #simplecheckout_customer {
+            margin-bottom: 0;
+        }
+        #simplecheckout_customer .simplecheckout-block-content {
+            border-bottom-width: 0;
+            padding-bottom: 0;
+        }
+        #simplecheckout_payment_address div.checkout-heading {
+            display: none;
+        }
+        #simplecheckout_payment_address .simplecheckout-block-content {
+            border-top-width: 0;
+            padding-top: 0;
+        }
+    {% endif %}
+    {% if customer_with_shipping_address %}
+        #simplecheckout_customer {
+            margin-bottom: 0;
+        }
+        #simplecheckout_customer .simplecheckout-block-content {
+            border-bottom-width: 0;
+            padding-bottom: 0;
+        }
+        #simplecheckout_shipping_address div.checkout-heading {
+            display: none;
+        }
+        #simplecheckout_shipping_address .simplecheckout-block-content {
+            border-top-width: 0;
+            padding-top: 0;
+        }
+    {% endif %}
+</style>
+<div class="simple-content">
+{% endif %}
+    {% if not ajax or (ajax and popup) %}
+    <script type="text/javascript">
+        {% if popup %} 
+            var simpleScriptsInterval = window.setInterval(function(){
+                if (typeof jQuery !== 'undefined' && jQuery.isReady) {
+                    window.clearInterval(simpleScriptsInterval);
+
+                    if (typeof Simplecheckout !== "function") {
+                        {% for script in simple_scripts %}
+                            $("head").append('<script src="' + '{{ script }}' + '"></' + 'script>');
+                        {% endfor %}
+
+                        {% for style in simple_styles %}
+                            $("head").append('<link href="' + '{{ style }}' + '" rel="stylesheet"/>');
+                        {% endfor %}                         
+                    }
+                }
+            },0);
+        {% endif %}
+
+        var startSimpleInterval_{{ group }} = window.setInterval(function(){
+            if (typeof jQuery !== 'undefined' && typeof Simplecheckout === "function" && jQuery.isReady) {
+                window.clearInterval(startSimpleInterval_{{ group }});
+
+                var simplecheckout_{{ group }} = new Simplecheckout({
+                    mainRoute: "checkout/simplecheckout",
+                    additionalParams: "{{ additional_params }}",
+                    additionalPath: "{{ additional_path }}",
+                    mainUrl: "{{ action }}",
+                    mainContainer: "#simplecheckout_form_{{ group }}",
+                    currentTheme: "{{ current_theme }}",
+                    loginBoxBefore: "{{ login_type == 'flat' ? '#simplecheckout_customer .simplecheckout-block-content:first' : '' }}",
+                    displayProceedText: {{ display_proceed_text ? 1 : 0 }},
+                    scrollToError: {{ scroll_to_error ? 1 : 0 }},
+                    scrollToPaymentForm: {{ scroll_to_payment_form ? 1 : 0 }},
+                    notificationDefault: {{ notification_default ? 1 : 0 }},
+                    notificationToasts: {{ notification_toasts ? 1 : 0 }},
+                    notificationCheckForm: {{ notification_check_form ? 1 : 0 }},
+                    notificationCheckFormText: "{{ notification_check_form_text }}",
+                    useAutocomplete: {{ use_autocomplete ? 1 : 0 }},
+                    useStorage: {{ use_storage ? 1 : 0 }},
+                    popup: {{ popup or as_module ? 1 : 0 }},
+                    agreementCheckboxStep: {{ agreement_checkbox_step ? agreement_checkbox_step : '\'0\'' }},
+                    enableAutoReloaingOfPaymentFrom: {{ enable_reloading_of_payment_form ? 1 : 0 }},
+                    javascriptCallback: function() {try{ {{ javascript_callback }} } catch (e) {console.log(e)}},
+                    stepButtons: {{ step_buttons }},
+                    menuType: {{ menu_type ? menu_type : '1' }},
+                    languageCode: "{{ language_code }}"
+                });
+
+                if (typeof toastr !== 'undefined') {
+                    toastr.options.positionClass = "{{ notification_position ? notification_position : 'toast-top-right' }}";
+                    toastr.options.timeOut = "{{ notification_timeout ? notification_timeout : '5000' }}";
+                    toastr.options.progressBar = true;
+                }
+
+                $(document).ajaxComplete(function(e, xhr, settings) {
+                    if (settings.url.indexOf("route=module/cart&remove") > 0 || (settings.url.indexOf("route=module/cart") > 0 && settings.type == "POST") || settings.url.indexOf("route=checkout/cart/add") > 0 || settings.url.indexOf("route=checkout/cart/remove") > 0) {
+                        window.resetSimpleQuantity = true;
+                        simplecheckout_{{ group }}.reloadAll();
+                    }
+                });
+
+                $(document).ajaxSend(function(e, xhr, settings) {
+                    if (settings.url.indexOf("checkout/simplecheckout&group") > 0 && typeof window.resetSimpleQuantity !== "undefined" && window.resetSimpleQuantity) {
+                        settings.data = settings.data.replace(/quantity.+?&/g,"");
+                        window.resetSimpleQuantity = false;
+                    }
+                });
+
+                simplecheckout_{{ group }}.init();
+                
+            }
+        },0);
+    </script>
+    {% endif %}
+    <div id="simplecheckout_form_{{ group }}" {{ display_error and has_error ? 'data-error="true"' : '' }} {{ logged ? 'data-logged="true"' : '' }}>
+        <div class="simplecheckout">
+            {% if not cart_empty %}
+                {% if steps_count > 1 %}
+                    {% if menu_type == '2' %}
+                        <div id="simplecheckout_step_menu" class="simplecheckout-vertical-menu simplecheckout-top-menu">
+                            {% for i in 1..steps_count %}
+                                <div class="checkout-heading simple-step-vertical" style="display:none" data-onclick="gotoStep" data-step="{{ i }}"><h4 class="panel-title">{{ step_names[i-1] }}</h4></div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div id="simplecheckout_step_menu">
+                            {% for i in 1..steps_count %}
+                                <span class="simple-step" data-onclick="gotoStep" data-step="{{ i }}">{{ step_names[i-1] }}</span>{% if i < steps_count %}<span class="simple-step-delimiter" data-step="{{ i+1 }}"><img src="{{ additional_path }}catalog/view/image/next_gray.png"></span>{% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                {% if steps_count > 1 and menu_type == '2' %}
+                    <div class="simplecheckout-steps-wrapper">
+                {% endif %}
+
+                {% if errors is not empty and display_error %}
+                    {% for error in errors %}
+                        <div class="alert alert-danger simplecheckout-warning-block" data-error="true">
+                            {{ error }}
+                        </div>
+                    {% endfor %}                 
+                {% endif %}
+
+                {%
+                    set replace = {
+                        '{three_column}'     : '<div class="simplecheckout-three-column">',
+                        '{/three_column}'    : '</div>',
+                        '{left_column}'      : '<div class="simplecheckout-left-column">',
+                        '{/left_column}'     : '</div>',
+                        '{right_column}'     : '<div class="simplecheckout-right-column">',
+                        '{/right_column}'    : '</div>',
+                        '{step}'             : '<div class="simplecheckout-step">',
+                        '{/step}'            : '</div>',
+                        '{clear_both}'       : '<div style="width:100%;clear:both;height:1px"></div>',
+                        '{customer}'         : simple_blocks['customer'],
+                        '{payment_address}'  : simple_blocks['payment_address'],
+                        '{shipping_address}' : simple_blocks['shipping_address'],
+                        '{cart}'             : simple_blocks['cart'],
+                        '{shipping}'         : simple_blocks['shipping'],
+                        '{payment}'          : simple_blocks['payment'],
+                        '{agreement}'        : simple_blocks['agreement'],
+                        '{help}'             : simple_blocks['help'],
+                        '{summary}'          : simple_blocks['summary'],
+                        '{comment}'          : simple_blocks['comment'],
+                        '{payment_form}'     : '<div class="simplecheckout-block" id="simplecheckout_payment_form">' ~ simple_blocks['payment_form'] ~ '</div>'
+                    }
+                %}
+
+                {% for key, value in simple_blocks %}
+                    {% set key_clear = key %}
+                    {% set key = '{' ~ key ~ '}' %}
+                    {% if replace[key] is not defined %}
+                        {% set replace = replace|merge({(key): '<div class="simplecheckout-block" id="' ~ key_clear ~ '">' ~ value ~ '</div>'}) %}
+                    {% endif %}
+                {% endfor %}
+
+                {{ simple_template|replace(replace) }}
+                
+                <div id="simplecheckout_bottom" style="width:100%;height:1px;clear:both;"></div>
+                <div class="simplecheckout-proceed-payment" id="simplecheckout_proceed_payment" style="display:none;">{{ text_proceed_payment }}</div>
+                
+                {% if display_agreement_checkbox %}
+                    <div class="alert alert-danger simplecheckout-warning-block" id="agreement_warning" {% if display_error and has_error %}data-error="true"{% else %}style="display:none;"{% endif %}>
+                        <div class="agreement_all">
+                            {% for agreement_id, warning_agreement in error_warning_agreement %}
+                                <div class="agreement_{{ agreement_id }}">{{ warning_agreement }}</div>
+                            {% endfor %}
+                        </div>                    
+                    </div>
+                {% endif %}  
+
+                <div class="simplecheckout-button-block buttons" id="buttons">
+                    <div class="simplecheckout-button-right">
+                        {% if display_agreement_checkbox %}
+                            <span id="agreement_checkbox">
+                                {% for agreement_id, text_agreement in text_agreements %}
+                                    <div class="checkbox"><label><input type="checkbox" name="agreements[]" value="{{ agreement_id }}" {{ agreement_id in agreements ? 'checked="checked"' : '' }} />{{ text_agreement }}</label></div>
+                                {% endfor %}
+                            </span>
+                        {% endif %}                
+                        {% if steps_count > 1 %}
+                        <a class="button btn-primary button_oc btn" data-onclick="nextStep" id="simplecheckout_button_next"><span>{{ button_next }}</span></a>
+                        {% endif %}
+                        <a class="button btn-primary button_oc btn" {{ block_order ? 'disabled' : ''}} data-onclick="createOrder" id="simplecheckout_button_confirm"><span>{{ button_order }}</span></a>
+                    </div>
+                    <div class="simplecheckout-button-left">
+                        {% if display_back_button %}
+                        <a class="button btn-primary button_oc btn" data-onclick="backHistory" id="simplecheckout_button_back"><span>{{ button_back }}</span></a>
+                        {% endif %}
+                        {% if steps_count > 1 %}
+                        <a class="button btn-primary button_oc btn" data-onclick="previousStep" id="simplecheckout_button_prev"><span>{{ button_prev }}</span></a>
+                        {% endif %}
+                    </div>
+                </div>    
+
+                {% if steps_count > 1 and menu_type == '2' %}
+                    </div>
+                {% endif %}
+                
+                {% if steps_count > 1 and menu_type == '2' %}
+                    <div id="simplecheckout_step_menu" class="simplecheckout-vertical-menu simplecheckout-bottom-menu">
+                        {% for i in 1..steps_count %}
+                            <div class="checkout-heading simple-step-vertical" style="display:none" data-onclick="gotoStep" data-step="{{ i }}"><h4 class="panel-title">{{ step_names[i-1] }}</h4></div>
+                        {% endfor %}
+                    </div>
+                {% endif %}           
+            
+            {% else %}
+                <div class="content">{{ text_error }}</div>
+                <div style="display:none;" id="simplecheckout_cart_total">{{ cart_total }}</div>
+                {% if display_weight %}
+                    <div style="display:none;" id="simplecheckout_cart_weight">{{ weight }}</div>
+                {% endif %}
+                {% if not popup and not as_module %}
+                    <div class="simplecheckout-button-block buttons">
+                        <div class="simplecheckout-button-right right"><a href="{{ continue }}" class="button btn-primary button_oc btn"><span>{{ button_continue }}</span></a></div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% if not ajax and not popup and not as_module %}
+</div>
+
+
+            <div class="final_main-result">
+              <p class="fm-result-count">1 товар, 1 услуга</p>
+              <p class="fm-result-sum">Итого: 110 800 ₸</p>
+            </div>
+            <div class="final_main-buttons">
+
+ 
+    <input type="button" value="Оформить заказ" id="button-confirm" data-loading-text="{{ text_loading }}" class="fm-buttons-btn ci-main-btn" />  
+ 
+            </div>
+            <div class="final_main-terms">
+              <p>Внимание! Окончательная стоимость заказа, если в нем присутствуют товары и/или услуги, участвующие в акции, будет подтверждена после обработки заказа сотрудником компании.</p>
+              <p>Нажимая на кнопку «Оформить заказ», я даю разрешение Обществу с ограниченной ответственностью "Алмаком" (далее - «Алмаком») в целях заключения и исполнения договора купли-продажи обрабатывать - собирать, записывать, систематизировать, накапливать, хранить, уточнять (обновлять, изменять), извлекать, использовать, передавать (в том числе поручать обработку другим лицам), обезличивать, блокировать, удалять, уничтожать - мои персональные данные: фамилию, имя, номера домашнего и мобильного телефонов, адрес электронной почты. Согласие может быть отозвано мною в любой момент путем направления письменного уведомления по адресу Алмаком. Ознакомиться с <a href="#">Политикой персональных данных</a>.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+      <aside class="cart-aside">
+        <!-- FINAL INFOBOX-->
+        <div class="final_infobox"  id="collapse-checkout-confirm"> 
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2906.102198566741!2d76.91737661505871!3d43.249279879137276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836eb54258ef45%3A0xad3070577922d8fe!2z0YPQu9C40YbQsCDQnNGD0YDQsNGC0LHQsNC10LLQsCAxNjQsINCQ0LvQvNCw0YLRiyAwNTAwMDA!5e0!3m2!1sru!2skz!4v1614845757534!5m2!1sru!2skz" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="#"><i class="sprite sprite-vk"></i></a><a href="#"><i class="sprite sprite-instagram"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form class="map-info-form" action="#" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-s"><label>
+          <p>Ваше имя</p><input type="text" name="" value="" placeholder="Ваше имя">
+        </label><label>
+          <p>Укажите ваш номер телефона</p><input type="text" name="" value="" placeholder="+7">
+        </label><label>
+          <p>Ваше сообщение</p><input type="text" name="" value="" placeholder="Сообщение...">
+        </label></div>
+      <div class="mi-form-buttons"><button class="button" type="submit">Отправить</button><label class="theme-checkbox"><input type="checkbox" name="" value=""><span class="checkbox-icon"><i class="sprite sprite-tick"></i></span><span>Я не робот!</span></label></div>
+      <div class="mi-form-success d-none"><img src="catalog/view/theme/almacom/img/check-mark-blue.png" alt="">
+        <p>Заявка упешно отправлена!</p><span class="mif-success-btn button">Закрыть</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% include simple_footer %}
+{% endif %}

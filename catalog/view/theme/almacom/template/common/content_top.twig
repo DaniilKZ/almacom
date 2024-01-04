@@ -1,0 +1,48 @@
+{% for module in modules %}
+	{% if loop.index == 1 and home == og_url %}
+
+		{{ module }}
+
+		<!-- HOME ADV -->
+		<section class="adv">
+			<div class="adv-in wrapper">
+				<ul class="adv-list">
+					<li class="adv-list-item">
+						<div class="al-item-icon"><img src="catalog/view/theme/almacom/img/experience.svg" alt=""></div>
+						<div class="al-item-text"><span class="ali-text-title">Опытные монтажники</span><span class="ali-text-text">В нашей команде работают профессиональные специалисты, с опытом работы от 3-х лет</span></div>
+					</li>
+					<li class="adv-list-item">
+						<div class="al-item-icon"><img src="catalog/view/theme/almacom/img/lightning.svg" alt=""></div>
+						<div class="al-item-text"><span class="ali-text-title">Мобильность</span><span class="ali-text-text">Бесплатный выезд замерщика в день обращения в любое удобное для Вас время по Алматы и АО</span></div>
+					</li>
+					<li class="adv-list-item">
+						<div class="al-item-icon"><img src="catalog/view/theme/almacom/img/protection.svg" alt=""></div>
+						<div class="al-item-text"><span class="ali-text-title">Монтаж “под ключ”</span>
+							<span class="ali-text-text">Установка любой сложности. Бытовые, канальные, кассетные, колонные, напольно-потолочные системы кондиционирования</span>
+						</div>
+					</li>
+					<li class="adv-list-item">
+						<div class="al-item-icon"><img src="catalog/view/theme/almacom/img/wallet.svg" alt=""></div>
+						<div class="al-item-text"><span class="ali-text-title">Любые виды оплаты</span>
+							<span class="ali-text-text">Наличными, банковской картой, безналичным расчётом, электронными платёжными системами</span>
+						</div>
+					</li>
+				</ul>
+				<div class="adv-promos">
+					<div class="adv-promos-item adv-promos-item-1">
+						<h3 class="ap-item-title">Бесплатная доставка по городу Алматы</h3>
+						<p class="ap-item-text">Быстро и надежно</p>{# <a class="ap-item-link button" href="#">Подробнее</a> #}
+					</div>
+					<div class="adv-promos-item adv-promos-item-2">
+						<h3 class="ap-item-title">Товары со скидкой</h3>
+						<p class="ap-item-text">От 20 до 50%</p><a class="ap-item-link button" href="index.php?route=product/special">Подробнее</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	{% else %}
+		{{ module }}
+	{% endif %}
+
+{% endfor %}

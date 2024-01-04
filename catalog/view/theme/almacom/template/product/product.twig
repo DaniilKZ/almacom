@@ -1,0 +1,543 @@
+{{ header }}
+
+
+<!-- SPEEDBAR-->
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+	{% for breadcrumb in breadcrumbs %}
+	  {% if loop.index != breadcrumbs|length %}
+	  <a class="speedbar-link" href="{{ breadcrumb.href }}">
+		<span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+	  </a>
+	  {% else %}
+	  <span class="speedbar-end">{{ breadcrumb.text }}</span>
+	  {% endif %}
+	{% endfor %}
+  </div>
+</section>
+
+
+<div class="theme-container">
+	<div class="theme-container-in wrapper">
+		<!-- PRODUCT MAIN-->
+		<div class="product_main">
+			<div class="product_main-top">
+				<div style="{% if jan == ''  %}display: none{% endif %}" class="pm-desc-badge"><span class="pmd-badge-item">{{jan}}</span></div>
+				<h1 class="pm-desc-name">{{ heading_title }} {% if not product.options %} {{ " " ~ model }} {% endif %}
+				{% if ean %} {{ "<br><small>Серия " ~ ean ~ "</small>"}} {% endif %}</h1>
+				<div class="product_main-top-row">
+					{# <div class="pm-desc-articul"><span>Артикул:&nbsp;{{ model }}</span></div> #}
+					<div class="pm-desc-presence">
+						{{ stock }}
+					</div>
+				</div>
+			</div>
+			<div class="product_main-image">
+				<div class="pm-image-top">
+					<div class="pmi-top-wrapper swiper-wrapper">
+						{% if thumb %}
+						<div class="pmit-wrapper-slide swiper-slide">
+							<img class="fs-gal"  data-url="{{ thumb}}"    src="{{ thumb }}" alt="{{ heading_title }}"></div>
+						{% endif %}
+						{% if images %}
+						{% for image in images %}
+						<div class="pmit-wrapper-slide swiper-slide">
+							<img class="fs-gal"
+								 src="{{ image.thumb }}"
+								 data-url="{{ image.thumb }}"
+								 alt="{{ heading_title }}">
+						</div>
+						{% endfor %}
+						{% endif %}
+					</div>
+					<div class="swiper-button-prev"><i class="sprite sprite-arrow-left-2"></i></div>
+					<div class="swiper-button-next"><i class="sprite sprite-arrow-left-2 rotated"></i></div>
+				</div>
+				{% if thumb %}
+				<div class="pm-image-small">
+					<div class="pmi-small-wrapper swiper-wrapper">
+						<div class="pmis-wrapper-slide swiper-slide"><img src="{{ thumb }}" alt="{{ heading_title }}"></div>
+						{% if images %}
+						{% for image in images %}
+						<div class="pmis-wrapper-slide swiper-slide"><img src="{{ image.thumb }}" alt="{{ heading_title }}"></div>
+						{% endfor %}
+						{% endif %}
+					</div>
+					<div style="left: -42px;"  class="swiper-button-prev"><i class="sprite sprite-arrow-left-2"></i></div>
+					<div style="right: -42px;" class="swiper-button-next"><i class="sprite sprite-arrow-left-2 rotated"></i></div>
+				</div>
+				{% endif %}
+			</div>
+			<div class="product_main-desc">
+				<div style="{% if jan == ''  %}display: none{% endif %}" class="pm-desc-badge"><span class="pmd-badge-item">{{jan}}</span></div>
+				<h1 class="pm-desc-name">{{ heading_title }} {% if not product.options %} {{ " " ~ model }} {% endif %}
+				{% if ean %} {{ "<br><small>Серия " ~ ean ~ "</small>"}} {% endif %}
+				</h1>
+				{# <div class="pm-desc-articul"><span>Артикул:&nbsp;{{ model }}</span></div> #}
+				<div class="pm-desc-presence">
+					<div class="card-product-presence">{{ stock }}</div>
+				</div>
+				<div class="pmd-presence-form">
+
+		<!-- OPTION PRODUCT -->
+		<div id="product"> 
+            <div class="form-group">
+
+            {% if options %}
+            {# <h3 style="display: none;">{{ text_option }}</h3> #}
+            {% for option in options %}
+            {% if option.type == 'select' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <select name="option[{{ option.product_option_id }}]" id="input-option{{ option.product_option_id }}" class="form-control">
+                <option value="">{{ text_select }}</option>
+                {% for option_value in option.product_option_value %}
+                <option value="{{ option_value.product_option_value_id }}">{{ option_value.name }}
+                {% if option_value.price %}
+                ({{ option_value.price_prefix }}{{ option_value.price }})
+                {% endif %} </option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+            {% if option.type == 'radio' %}
+            <div class="form-group{% if option.required %} required {% endif %} d-none">
+              <label class="control-label">{{ option.name }}</label>
+              <div id="input-option{{ option.product_option_id }}"> {% for option_value in option.product_option_value %}
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" />
+                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}                  
+                    {{ option_value.name }}
+                    {% if option_value.price %}
+                    ({{ option_value.price_prefix }}{{ option_value.price }})
+                    {% endif %} </label>
+                </div>
+                {% endfor %} </div>
+            </div>
+            {% endif %}
+            {% if option.type == 'checkbox' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label">{{ option.name }}</label>
+              <div id="input-option{{ option.product_option_id }}"> {% for option_value in option.product_option_value %}
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="option[{{ option.product_option_id }}][]" value="{{ option_value.product_option_value_id }}" />
+                    {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}
+                    {{ option_value.name }}
+                    {% if option_value.price %}
+                    ({{ option_value.price_prefix }}{{ option_value.price }})
+                    {% endif %} </label>
+                </div>
+                {% endfor %} </div>
+            </div>
+            {% endif %}
+            {% if option.type == 'text' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" placeholder="{{ option.name }}" id="input-option{{ option.product_option_id }}" class="form-control" />
+            </div>
+            {% endif %}
+            {% if option.type == 'textarea' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <textarea name="option[{{ option.product_option_id }}]" rows="5" placeholder="{{ option.name }}" id="input-option{{ option.product_option_id }}" class="form-control">{{ option.value }}</textarea>
+            </div>
+            {% endif %}
+            {% if option.type == 'file' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label">{{ option.name }}</label>
+              <button type="button" id="button-upload{{ option.product_option_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+              <input type="hidden" name="option[{{ option.product_option_id }}]" value="" id="input-option{{ option.product_option_id }}" />
+            </div>
+            {% endif %}
+            {% if option.type == 'date' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <div class="input-group date">
+                <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" data-date-format="YYYY-MM-DD" id="input-option{{ option.product_option_id }}" class="form-control" />
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                </span></div>
+            </div>
+            {% endif %}
+            {% if option.type == 'datetime' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <div class="input-group datetime">
+                <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" data-date-format="YYYY-MM-DD HH:mm" id="input-option{{ option.product_option_id }}" class="form-control" />
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span></div>
+            </div>
+            {% endif %}
+            {% if option.type == 'time' %}
+            <div class="form-group{% if option.required %} required {% endif %}">
+              <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+              <div class="input-group time">
+                <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" data-date-format="HH:mm" id="input-option{{ option.product_option_id }}" class="form-control" />
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+			{% if product_catigories_list %}
+ 					<div class="pm-desc-features">
+						<span class="pmd-features-title">Обслуживаемая площадь:</span>
+						<div class="pmd-features-radios">
+								{% for product_cat_list_item in product_catigories_list %}
+	 								<a class="{{ product_cat_list_item.class }}" >  
+	 								<!-- <a href="{{ product_cat_list_item.href }}" class="{{ product_cat_list_item.class }}">   -->
+											{% set option_split_name =  product_cat_list_item.options_for_products_category_list.name|split('=') %} 
+											<label class="theme-radio  ">
+												<span 
+															class="radio-text product-model pm-{{ product_cat_list_item.class }}" 
+															data-productid="{{product_cat_list_item.id}}"
+															data-href="{{ product_cat_list_item.href }}"
+												>{{ option_split_name[1] }}</span>
+											</label> 
+	 								</a> 
+								{% endfor %}
+						</div>
+					</div>
+			{% endif %}
+
+					<style>
+						a.active > .theme-radio > span {
+							border: 2px solid #1165f4;
+						}	
+					</style>
+
+					{% if (quantity > 0) %}
+					<div class="pm-desc-qty"><span class="pmd-qty-title">Количество:</span>
+						<div class="product-counter">
+							<span class="product-counter-less">-</span>
+							<span class="product-counter-value">1</span>
+							<span class="product-counter-more">+</span>
+							<input type="text" name="quantity" value="{{ minimum }}" size="2" id="input-quantity" class="d-none" />
+						</div>
+						<input type="hidden" name="product_id" value="{{ product_id }}" />
+					</div>
+					{% endif %}
+					<br />
+
+					<div class="pm-desc-sum">
+						{% if not special %}
+						<span>{{ price }}</span>
+						{% else %}
+						<span>{{ special }}</span>
+						<br>
+						<small style="text-decoration: line-through;">{{ price }}</small>
+						{% endif %}
+					</div>
+
+				<div class="pm-desc-buttons">
+			
+
+
+					<button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="pmd-buttons-cart" {% if (quantity < 1) %} disabled="on" {% endif %}>
+						<i class="sprite sprite-cart-small"><svg><use xlink:href="#cart"></use></svg></i>
+						<span>В корзину</span>
+					</button>
+					{% if (quantity < 1) %}
+					<!-- <div class="pmd-buttons-warning">*Товара нет в наличии</div> -->
+					{% endif %}
+					{# <span class="pmd-buttons-fav"><i class="sprite sprite-heart-empty-small"></i></span> #}
+				</div>
+
+            </div>
+            {% if minimum > 1 %}
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_minimum }}</div>
+            {% endif %}
+        </div>
+<script>
+	$(function(){
+		// $(document).find('.product-model').each(function(index,item){
+		// 	console.log(index);
+		// 	var values = $(item).text().split('=');
+		// 	$(this).text(values[1].trim());
+		// 	$(this).attr('data-productid',values[2].trim()); 
+		// 	$(this).attr('data-model',values[0].trim());
+		// 	if (index === 0) {
+		// 		$(document).find('.pm-desc-name-model').text(values[0].trim()); 
+		// 	}
+		// })
+		// $(document).find('.product-model-loading').addClass('d-none');
+		// $(document).find('.product-model').removeClass('d-none');
+	})
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+					
+<!-- 					<div class="pm-desc-qty"><span class="pmd-qty-title">Количество:</span>
+						<div class="product-counter">
+							<span class="product-counter-less">-</span>
+							<span class="product-counter-value">1</span>
+							<span class="product-counter-more">+</span>
+							<input class="d-none" type="text" name="quantity" value="1">
+						</div>
+					</div> -->
+
+<!-- 					<div class="pm-desc-buttons">
+						<button class="pmd-buttons-cart" onclick="cart.add('30', '1')">
+							<i class="sprite sprite-cart-small"></i>
+							<span>В корзину</span>
+						</button>
+						<span class="pmd-buttons-fav"><i class="sprite sprite-heart-empty-small"></i></span>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+		<!-- PRODUCT FEATURES-->
+		<div class="product_features">
+			<div class="product_features-tabs">
+				<span class="pf-tabs-item active" data-for="about">{{ tab_description }}</span>
+				{% if attribute_groups %}
+				<span class="pf-tabs-item" data-for="spec">{{ tab_attribute }}</span>
+				{% endif %}
+				{# <span class="pf-tabs-item" data-for="aux">Аксессуары</span>
+				<span class="pf-tabs-item" data-for="questions">Вопрос-ответ</span> #}
+			</div>
+			<div class="product_features-main">
+				<div class="pf-main-block" id="about">
+					<!-- <h6 class="pf-main-title">{{ tab_description }}</h6> -->
+					<div>{{ description }}</div>
+				</div>
+				{% if attribute_groups %}
+				<div class="pf-main-block d-none" id="spec">
+					<!-- <h6 class="pf-main-title">{{ tab_attribute }}</h6> -->
+					<table class="pf-main-table">
+						{% for attribute_group in attribute_groups %}
+						<thead>
+							<tr class="pfm-table-row">
+								<td class="pfm-table-data" colspan="2"><strong>{{ attribute_group.name }}</strong></td>
+							</tr>
+						</thead>
+						<tbody>
+						{% for attribute in attribute_group.attribute %}
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">{{attribute.name}}</td>
+							<td class="pfm-table-data pfm-table-data_value">{{attribute.text}}</td>
+						</tr>
+						{% endfor %}
+						</tbody>
+						{% endfor %}
+					</table>
+				</div>
+				{% endif %}
+				{# <div class="pf-main-block d-none" id="aux">
+					<h6 class="pf-main-title">Аксессуары</h6>
+					<table class="pf-main-table">
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Мощность охлаждения, БТЕ/ч</td>
+							<td class="pfm-table-data pfm-table-data_value">24000</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Мощность обогрева, БТЕ/ч</td>
+							<td class="pfm-table-data pfm-table-data_value">26400</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Потребляемая мощность (охлаждение), Вт</td>
+							<td class="pfm-table-data pfm-table-data_value">2227</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Потребляемая мощность (обогрев), Вт</td>
+							<td class="pfm-table-data pfm-table-data_value">2094</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Расход воздуха, м3/ч</td>
+							<td class="pfm-table-data pfm-table-data_value">1120</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Уровень шума (внутренний/внешний), дБ(А)</td>
+							<td class="pfm-table-data pfm-table-data_value">54/58</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Вес (внутренний/внешний), кг</td>
+							<td class="pfm-table-data pfm-table-data_value">49/55</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Диаметры трубопроводов, мм</td>
+							<td class="pfm-table-data pfm-table-data_value">9.52*0.6/15.88*0.75</td>
+						</tr>
+					</table>
+				</div> #}
+				{# <div class="pf-main-block d-none" id="questions">
+					<h6 class="pf-main-title">Вопрос-ответ</h6>
+					<table class="pf-main-table">
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Мощность охлаждения, БТЕ/ч</td>
+							<td class="pfm-table-data pfm-table-data_value">24000</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Мощность обогрева, БТЕ/ч</td>
+							<td class="pfm-table-data pfm-table-data_value">26400</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Потребляемая мощность (охлаждение), Вт</td>
+							<td class="pfm-table-data pfm-table-data_value">2227</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Потребляемая мощность (обогрев), Вт</td>
+							<td class="pfm-table-data pfm-table-data_value">2094</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Расход воздуха, м3/ч</td>
+							<td class="pfm-table-data pfm-table-data_value">1120</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Уровень шума (внутренний/внешний), дБ(А)</td>
+							<td class="pfm-table-data pfm-table-data_value">54/58</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Вес (внутренний/внешний), кг</td>
+							<td class="pfm-table-data pfm-table-data_value">49/55</td>
+						</tr>
+						<tr class="pfm-table-row">
+							<td class="pfm-table-data pfm-table-data_name">Диаметры трубопроводов, мм</td>
+							<td class="pfm-table-data pfm-table-data_value">9.52*0.6/15.88*0.75</td>
+						</tr>
+					</table>
+				</div> #}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+	<div class="map-body"></div>
+	<div class="map-info wrapper">
+		<div class="map-info-contacts">
+			<p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+			<div class="mi-contacts-details">
+				<p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+				<p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+				<p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+				<div class="mic-details-socials">
+					<p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+					<p class="micd-socials-list"><a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></p>
+				</div>
+			</div>
+		</div>
+		<form action="?" class="map-info-form" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls">
+        <label>
+          <p class="mif-controls-title">Ваше имя</p>
+          <input type="text" name="your_name" value="" placeholder="Ваше имя">
+        </label>
+        <label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p>
+          <input type="tel" name="your_phone" value="" placeholder="+7">
+        </label>
+        <label>
+          <p class="mif-controls-title">Ваше сообщение</p>
+          <input type="text" name="your_message" value="" placeholder="Сообщение...">
+        </label>
+      </div>
+      <div class="mi-form-buttons">
+        <button class="button" type="submit">Отправить</button>
+        <div class="g-recaptcha-container">
+                    <div class="g-recaptcha-item" id="recaptchaMain"></div>
+                    <div class="recaptcha-error d-none"></div>
+                </div>
+      </div>
+    </form>
+	</div>
+</section>
+
+<!-- Full screen gallery. -->
+<div class="fs-gal-view">
+	<h1></h1>
+	<img class="fs-gal-prev fs-gal-nav" src="catalog/view/image/prev.svg" alt="Previous picture" title="Previous picture" />
+	<img class="fs-gal-next fs-gal-nav" src="catalog/view/image//next.svg" alt="Next picture" title="Next picture" />
+	<img class="fs-gal-close" src="catalog/view/image//close.svg" alt="Close gallery" title="Close gallery" />
+	<img class="fs-gal-main" src="" alt="" />
+</div>
+
+
+<script type="text/javascript"><!--
+
+$(document).on('click', '#button-cart', function() {
+	$.ajax({
+		url: 'index.php?route=checkout/cart/add',
+		type: 'post',
+		data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
+		dataType: 'json',
+		beforeSend: function() {
+			$('#button-cart').button('loading');
+		},
+		complete: function() {
+			$('#button-cart').button('reset');
+		},
+		success: function(json) {
+			$('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+			if (json['error']) {
+				if (json['error']['option']) {
+					for (i in json['error']['option']) {
+						var element = $('#input-option' + i.replace('_', '-'));
+
+						if (element.parent().hasClass('input-group')) {
+							element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+						} else {
+							element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+						}
+					}
+				}
+
+				if (json['error']['recurring']) {
+					$('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+			}
+
+			if (json['success']) {
+				$('.breadcrumb').after('<div class="alert alert-success alert-dismissible">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+				$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
+
+				$('html, body').animate({ scrollTop: 0 }, 'slow');
+
+				$('.sprite.sprite-cart-2').load('index.php?route=common/cart/info .load-cart-data');
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+});
+//--></script>
+
+
+<link rel="stylesheet" href="catalog/view/css/fs-gal.css" type="text/css">
+<script src="catalog/view/javascript/fs-gal.js"></script>
+
+<style>
+	.pm-image-top {
+		position: relative;
+	}
+</style>
+{{ footer }}
+

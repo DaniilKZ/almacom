@@ -1,0 +1,93 @@
+<div class="category_filter">
+  <div class="catalog_filter">
+    <div class="catalog_filter-top">
+      <span class="filter-heading">Фильтры</span>
+      <span class="filter-icon"><i class="sprite sprite-filter"></i></span>
+    </div>
+{#     <div class="catalog_filter-main">
+      <div class="catalog_filter-block">
+        <div class="cf-block-top" href="#">
+          <span class="cfb-top-title">Выберите тип</span>
+        </div>
+        <ul class="cf-block-list">
+          {% for category in categories %}
+            {% if category.category_id == category_id %}
+            <li class="cfb-list-item active">
+              <a class="cfb-list-item_block" href="{{ category.href }}">
+                <span class="theme-checkbox">
+                  <span class="checkbox-icon"><i class="sprite sprite-tick"></i></span>
+                  <span>{{ category.name }}</span>
+                </span>
+                <span class="cfbl-item-icon"><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i></span>
+              </a>
+              {% if category.children %}
+                <ul class="cf-block-list">
+                {% for child in category.children %}
+                  {% if child.category_id == child_id %}
+                    <li class="cfb-list-item active">
+                      <a class="cfb-list-item_block" href="{{ child.href }}">
+                        <span class="theme-checkbox">
+                          <span class="checkbox-icon"><i class="sprite sprite-tick"></i></span>
+                          <span>{{ child.name }}</span>
+                        </span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="cfb-list-item">
+                      <a class="cfb-list-item_block" href="{{ child.href }}">
+                        <span class="theme-checkbox">
+                          <span class="checkbox-icon"><i class="sprite sprite-tick"></i></span>
+                          <span>{{ child.name }}</span>
+                        </span>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+            {% else %}
+            <li class="cfb-list-item">
+              <a class="cfb-list-item_block" href="{{ category.href }}">
+                <span class="theme-checkbox">
+                  <span class="checkbox-icon"><i class="sprite sprite-tick"></i></span>
+                  <span>{{ category.name }}</span>
+                </span>
+                <span class="cfbl-item-icon"><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i></span>
+              </a>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div> #}
+    <div class="catalog_filter-details_outer">
+      <div class="catalog_filter-details">
+        <div class="cf-details-block_outer">
+          <div class="cf-details-block">
+            <div class="cfd-block-title"><span>Цена, ₸</span></div>
+            <div class="cfd-block-inputs"><input type="number" name="" value="" placeholder="-"><input type="number" name="" value="" placeholder="-"></div>
+          </div>
+          <div class="cf-details-block">
+            <div class="cfd-block-title"><span>Мощность охлаждения, кВт</span></div>
+            <div class="cfd-block-inputs"><input type="number" name="" value="" placeholder="-"><input type="number" name="" value="" placeholder="-"></div>
+          </div>
+          <div class="cf-details-block">
+            <div class="cfd-block-title"><span>Мощность обогрева, кВт</span></div>
+            <div class="cfd-block-inputs"><input type="number" name="" value="" placeholder="-"><input type="number" name="" value="" placeholder="-"></div>
+          </div>
+          <div class="cf-details-block">
+            <div class="cfd-block-title"><span>Уровень шума, дБ</span></div>
+            <div class="cfd-block-inputs"><input type="number" name="" value="" placeholder="-"><input type="number" name="" value="" placeholder="-"></div>
+          </div>
+          <div class="cf-details-block">
+            <div class="cfd-block-title"><span>Площадь, м2</span></div>
+            <div class="cfd-block-inputs"><input type="number" name="" value="" placeholder="-"><input type="number" name="" value="" placeholder="-"></div>
+          </div>
+        </div>
+        <div class="cf-details-reset"><button class="cfd-reset-btn"><i class="sprite sprite-reset"></i><span class="cfdr-btn-text">Сбросить фильтры</span><span class="cfdr-btn-badge">4</span></button></div>
+        <button class="cf-details-close">X</button>
+      </div>
+    </div>
+  </div>
+</div>

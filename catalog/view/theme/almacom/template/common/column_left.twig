@@ -1,0 +1,23 @@
+{% if modules %}
+<aside class="content-aside">
+	<div class="category_filter">
+		<div class="catalog_filter">
+			<div class="catalog_filter-top">
+				<span class="filter-heading">Фильтры</span>
+				<span class="filter-icon"><i class="sprite sprite-filter"><svg><use xlink:href="#filter"></use></svg></i></span>
+			</div>
+			<div class="catalog_filter-details_outer">
+				<div class="catalog_filter-details">
+					<div class="cf-details-block_outer">
+						{% for module in modules %}
+							{{ module }}
+						{% endfor %}
+					</div>
+
+			        <button class="cf-details-close">X</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</aside>
+{% endif %}

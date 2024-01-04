@@ -1,0 +1,637 @@
+{{ header }}
+
+<!-- SPEEDBAR-->
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+	{% for breadcrumb in breadcrumbs %}
+	  {% if loop.index != breadcrumbs|length %}
+	  <a class="speedbar-link" href="{{ breadcrumb.href }}">
+		<span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+	  </a>
+	  {% else %}
+	  <span class="speedbar-end">{{ breadcrumb.text }}</span>
+	  {% endif %}
+	{% endfor %}
+  </div>
+</section>
+
+<div class="theme-container">
+	<div class="theme-container-in wrapper">
+		{% if (information_id == 4) %}
+		<!-- ABOUT SLIDE -->
+		<div class="about_slide">
+			<div class="about_slide-img"><img src="catalog/view/theme/almacom/img/about-bg.jpg" alt=""></div>
+			<div class="about_slide-data">
+				<div class="as-data-logo"><img src="catalog/view/theme/almacom/img/about-logo.png" alt="">
+					<p>климатическая техника</p>
+				</div>
+			</div>
+		</div>
+		<!-- ABOUT MAIN -->
+		<div class="about_main">
+			<h1>{{ heading_title }}</h1>
+			{{ description }}
+		</div>
+		{% endif %}
+
+		{% if (information_id == 10) %} 
+
+				<div class="theme-container">
+					<div class="theme-container-in wrapper"> 
+						{{ description }}
+					</div>
+				</div>
+  
+		{% endif %}
+
+
+		{% if (information_id == 7) %}
+		<!-- SERVICE SLIDE -->
+		<div class="service_slide">
+			<div class="service_slide-img"><img src="catalog/view/theme/almacom/pic/service/service-slide.jpg" alt=""></div>
+			<div class="service_slide-text">
+				<h1 class="ss-text-heading">{{ heading_title }}</h1>
+				<p class="ss-text-para">Сервисный центр "Алмаком" оказывает услуги по гарантийному и негарантийному ремонту всей продукции ALMACOM, в котором на протяжении многих лет работают высококвалифицированные специалисты.</p>
+				<form class="ss-text-form" action="#" method="post">
+					<div class="sst-form-dropdown">
+						<div class="my_dropdown-container">
+							<div class="my_dropdown-main my_dropdown-main_pc">
+								<span class="my_dropdown-selected"></span>
+								<i style="flex-grow: 0;flex-shrink: 0">
+									<svg xmlns="http://www.w3.org/2000/svg" width="9" height="5.5" viewbox="0 0 18 11">
+										<g>
+											<g opacity=".52">
+												<path fill="#333" d="M13.902.183l3.086.072s.803 2.34-.068 3.206l-6.604 6.562a2.126 2.126 0 0 1-3.013.005L.657 3.466A2.31 2.31 0 0 1-.02 1.822C-.02 1.26.179.698.58.26 1.266.49 3.666.178 3.666.178"></path>
+											</g>
+										</g>
+									</svg>
+								</i>
+							</div>
+							<ul class="my_dropdown-list">
+								<li class="my_dropdown-item" data-value="Консультация">Консультация</li>
+								<li class="my_dropdown-item" data-value="Комплексный осмотр">Комплексный осмотр</li>
+								<li class="my_dropdown-item" data-value="Чистка фильтров">Чистка фильтров</li>
+								<li class="my_dropdown-item" data-value="Проверка герметичности холодильного контура">Проверка герметичности холодильного контура</li>
+								<li class="my_dropdown-item" data-value="Смазка подшипников вентиляторов">Смазка подшипников вентиляторов</li>
+								<li class="my_dropdown-item" data-value="Проверка электрических элементов системы">Проверка электрических элементов системы</li>
+								<li class="my_dropdown-item" data-value="Химическая чистка теплообменника внутреннего блока и дозаправка системы фреоном">Химическая чистка теплообменника внутреннего блока и дозаправка системы фреоном</li>
+								<li class="my_dropdown-item" data-value="Чистка теплообменника внешнего блока">Чистка теплообменника внешнего блока</li>
+							</ul>
+							<input class="my_dropdown-input" type="hidden" name="type" value="">
+						</div>
+					</div>
+					<div class="sst-form-button"><button type="submit">Заказать</button></div>
+				</form>
+			</div>
+		</div>
+
+		<!-- SERVICE MAIN -->
+		<div class="service_main">
+			<div class="service_main-text">
+				{{ description }}
+			</div>
+			<div class="service_main-footer">
+				<div class="sm-footer-row">
+					<div class="smf-row-card">
+						<div class="card-service">
+							<div class="card-service-img"> 
+								<div class="dg-widget-link"><a href="http://2gis.kz/almaty/center/76.916127,43.271442/zoom/15/routeTab/rsType/bus/to/76.916127,43.271442╎Алмаком, сервисный центр?utm_medium=widget-source&utm_campaign=firmsonmap&utm_source=route">Найти проезд до Алмаком, сервисный центр</a></div><script charset="utf-8" src="https://widgets.2gis.com/js/DGWidgetLoader.js"></script><script charset="utf-8">new DGWidgetLoader({"width":427,"height":185,"borderColor":"#a3a3a3","pos":{"lat":43.271442,"lon":76.916127,"zoom":15},"opt":{"city":"almaty"},"org":[{"id":"70000001033018038"}]});</script><noscript style="color:#c00;font-size:16px;font-weight:bold;">Виджет карты использует JavaScript. Включите его в настройках вашего браузера.</noscript>
+								<!-- <img src="catalog/view/theme/almacom/pic/service/service-2.jpg" alt=""> -->
+							</div>
+							<div class="card-service-desc">
+								<h6 class="cs-desc-title">Режим работы сервисного центра</h6>
+								<div class="cs-desc-text">
+									<p><strong>Понедельник – пятница: </strong><span>09:00 – 18:00</span></p>
+									<p><strong>Суббота: </strong><span>09:00 – 14:00</span></p>
+									<p><strong>Воскресенье: </strong><span>выходной</span></p>
+									<p><strong>Тел.: </strong><span>+7 (727) 385‒88‒81 <br> +7‒701‒222‒21‒37</span></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="smf-row-points">
+						<ul class="service-points-list">
+							<li class="sp-list-item"><span class="spl-item-icon"><img src="catalog/view/theme/almacom/img/tools.png" alt=""></span><span class="spl-item-text">Сервисный центр оснащен дорогостоящими инструментами и измерительными приборами.</span></li>
+							<li class="sp-list-item"><span class="spl-item-icon"><img src="catalog/view/theme/almacom/img/chronometer.png" alt=""></span><span class="spl-item-text">Наши сотрудники в максимально короткие сроки выезжают на ремонт и оперативно устраняют неполадки. </span></li>
+							<li class="sp-list-item"><span class="spl-item-icon"><img src="catalog/view/theme/almacom/img/worker.png" alt=""></span><span class="spl-item-text">Оперативность и высокая квалификация сервисного центра "Алмаком" является важным преимуществом перед другими компаниями, занимающимися кондиционерами.</span></li>
+						</ul>
+						<div class="service-points-buttons"><a class="sp-buttons-btn" href="#">Прайс на сервисные услуги</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		{% if (information_id == 8) %}
+		<!-- DISTRIBUTORS -->
+
+		<div class="distributors_main">
+			<h1 class="cart_main-title">{{ heading_title }}</h1>
+			<div class="distributors_main-body">
+				<div class="dm-body-select">
+					<div class="dmb-select-item">
+						<p class="dmbs-item-title">Страна:</p>
+						<div class="dmbs-item-dropdown">
+							<div class="my_dropdown-container">
+								<div class="my_dropdown-main"><img src="img/flags/kaz.png" alt=""><span class="my_dropdown-selected">Казахстан</span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="5.5" viewbox="0 0 18 11">
+										<g>
+											<g opacity=".52">
+												<path fill="#333" d="M13.902.183l3.086.072s.803 2.34-.068 3.206l-6.604 6.562a2.126 2.126 0 0 1-3.013.005L.657 3.466A2.31 2.31 0 0 1-.02 1.822C-.02 1.26.179.698.58.26 1.266.49 3.666.178 3.666.178"></path>
+											</g>
+										</g>
+									</svg></div>
+								<ul class="my_dropdown-list country">
+									<li class="my_dropdown-item" value="1" data-value="1">Россия</li>
+									<li class="my_dropdown-item" value="2" data-value="2">Кыргызстан</li>
+									<li class="my_dropdown-item" value="3" data-value="3">Казахстан</li>
+								</ul>
+								<input class="my_dropdown-input" type="hidden" name="country" value="3">
+							</div>
+						</div>
+					</div>
+					<div class="dmb-select-item">
+						<p class="dmbs-item-title">Город:</p>
+						<div class="dmbs-item-dropdown">
+							<div class="my_dropdown-container">
+								<div class="my_dropdown-main city"><span class="my_dropdown-selected">Алматы</span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="5.5" viewbox="0 0 18 11">
+										<g>
+											<g opacity=".52">
+												<path fill="#333" d="M13.902.183l3.086.072s.803 2.34-.068 3.206l-6.604 6.562a2.126 2.126 0 0 1-3.013.005L.657 3.466A2.31 2.31 0 0 1-.02 1.822C-.02 1.26.179.698.58.26 1.266.49 3.666.178 3.666.178"></path>
+											</g>
+										</g>
+									</svg></div>
+								<ul class="my_dropdown-list city" >
+									<li class="my_dropdown-item" data-value="1">Алматы</li>
+									<li class="my_dropdown-item" data-value="2">Нур-Султан</li>
+									<li class="my_dropdown-item" data-value="5">Павлодар</li>
+									<li class="my_dropdown-item" data-value="6">Актау</li>
+									<li class="my_dropdown-item" data-value="7">Атырау</li>
+									<li class="my_dropdown-item" data-value="8">Актобе</li>
+									<li class="my_dropdown-item" data-value="9">Шымкент</li>
+									<li class="my_dropdown-item" data-value="10">Усть-Каменогорск</li>
+									<li class="my_dropdown-item" data-value="11">Кызылорда</li>
+									<li class="my_dropdown-item" data-value="12">Уральск</li>
+									<li class="my_dropdown-item" data-value="13">Караганда</li>
+									<li class="my_dropdown-item" data-value="14">Тараз</li>
+									<li class="my_dropdown-item" data-value="15">Талдыкорган</li>
+									<li class="my_dropdown-item" data-value="16">Темиртау</li>
+									<li class="my_dropdown-item" data-value="17">Петропавловск</li>
+									<li class="my_dropdown-item" data-value="18">Семей</li>
+									<li class="my_dropdown-item" data-value="19">Кокшетау</li>
+									<li class="my_dropdown-item" data-value="20">Костанай</li>
+									<li class="my_dropdown-item" data-value="21">Аксай</li>
+									<li class="my_dropdown-item" data-value="22">Рудный</li>
+									<li class="my_dropdown-item" data-value="23">Экибастуз</li>
+									<li class="my_dropdown-item" data-value="24">Жезказган</li>
+								</ul>
+								<input class="my_dropdown-input" type="hidden" name="city" value="1">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="dm-body-branches">
+<!-- 					<div class="dmb-branches-item">
+						<div class="selfpick-address">
+							<div class="selfpick-address-text">
+								<p class="sa-text-name">Салон "Климат"</p>
+								<p class="sa-text-location">г. Алматы, Муратбаева 164/110, уг. ул. Карасай батыра</p>
+								<div class="sa-text-time">
+									<p class="sat-time-open">Контакты</p>
+									<p class="sat-time-hours"></p>
+								</div>
+							</div>
+							<div class="selfpick-address-map">
+								<div class="sa-map-in"><img src="catalog/view/theme/almacom/img/cart-final-step-map.png" alt=""></div>
+								<div class="sa-map-button"><span class="sam-button-btn">Кликните, чтобы увеличить</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="dmb-branches-item">
+						<div class="selfpick-address">
+							<div class="selfpick-address-text">
+								<p class="sa-text-name">Салон "Жара"</p>
+								<p class="sa-text-location">г. Алматы, Муратбаева 164/110, уг. ул. Карасай батыра</p>
+								<div class="sa-text-time">
+									<p class="sat-time-open">Контакты</p>
+									<p class="sat-time-hours"></p>
+								</div>
+							</div>
+							<div class="selfpick-address-map">
+								<div class="sa-map-in"><img src="catalog/view/theme/almacom/img/cart-final-step-map.png" alt=""></div>
+								<div class="sa-map-button"><span class="sam-button-btn">Кликните, чтобы увеличить</span></div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+<script type="text/javascript">
+	var json =  { 
+			data : [
+				{
+					id_country: 1, 
+						city_list:[
+							{ 
+								city_id :  1,
+								title_city: 'Самара',
+								adress_list:[
+									{
+										name: 'Алмаком-Самара', 
+										adress:'Стромиловское шоссе, дом 1, строение 6	',  
+										phone: [
+											'+7 (961) 3853745',
+											'+7 (846) 3745343',
+										], 
+										email: 'almacom-samara@mail.ru'
+									}
+								]
+							}
+						]
+				},
+				{
+					id_country: 2, 
+						city_list: [
+							{ 
+								city_id :  1,
+								title_city: 'Бишкек',
+								adress_list:[
+									{
+										name: 'ТАКТ Компани ОсОО', adress:'ул. Муратбаева 164/110 уг. ул. Карасай батыра',  
+										phone: [ '+996312482248'], email: 'timur.a292@mail.ru', 
+									},
+									{
+										name: 'Магазин "Реут"', adress:'ул. Кулатова 14, Т.В.Ц. | "Баумаркет". оф. 9А	',  phone: [ '+996312892799','+996703910343'], email: 'reut_@mail.ru', 
+									}
+								]
+							}
+						]
+				},
+				{
+					id_country: 3, 
+						city_list:[
+							{ 
+								city_id :  1,
+								title_city: 'Алматы',
+								adress_list:[ 
+									{name: 'Салон "Климат"', adress:'ул. Муратбаева 164/110 уг. ул. Карасай батыра', 
+									phone: [ '+7 (727) 293-08-00', '+7 (727) 293-55-31', '+7 (727) 260-68-60', '+7 (700) 836-85-56'], email: 'shop@almacom.kz' },
+								]
+							},
+							{
+								city_id :  2,
+								title_city: 'Астана',
+								adress_list:[
+									{ 
+										name: 'ТОО SemBuild',
+										adress:'Ул. Жетыген 27а, 2 этаж, 205 кабинет',
+										phone: [ '+7 778 432 6406', '+7 777 684 2015' ],
+										email: 'sembuildkt@gmail.com'
+									},
+									{name: 'ТОО "Реалклимат"', adress:'ул. Бейимбет Майлин, 5	',  
+									phone: [ '+7 (7172) 99-78-57', '+7 (777) 525-91-53', '+7 (778) 220-38-69', '+7 (700) 270-84-14'], email: '' },
+									{name: 'Салон "Техника"', adress:'ул. Ыкылас Дукенулы д.13	',  phone: [ '+7 (7172) 396565','+7 (701) 795-56-96'], email: 'tehnika-astana@mail.ru | gulmira_ishniyaz@mail.ru' },
+									{name: 'Марпрофи', adress:'ул. Сейфуллина 40',  phone: [ '+7 (7172) 467696','+7 (701) 7159250	'], email: 'umka_m_kz@mail.ru' },
+									{   
+										name: 'ТОО Бинар ЛТД', 
+										adress:'Город Астана ул. Ыклас Дукенулы 38 Вп 6',
+										phone: [ '+7 701 528 85 79', '+7 771 606 29 48'], 
+										email: 'binar.05@mail.ru'
+									}
+								]
+							},
+							{
+								city_id: 5, title_city: 'Павлодар',
+								adress_list : [
+ 									{name: 'ТОО "Климат-Контроль KZ"	', adress:'ул. Абая, 115',  phone: [ '+7 (7182) 328746','+7 (702) 0008746'], email: 'kk_kz@inbox.ru'},
+ 									{name: 'ТОО "ГрандСтрой ПЛЮС"', adress:'ул. Абая, 115',  phone: [ '+7 (7182) 328746','+7 (701) 5382198'], email: 'gspv@bk.ru'},
+ 									{name: 'ИП Васюк С.Н.', adress:'ул. Циолковского 15',  phone: [ '+7 (701) 5014995','+7 (718) 2782881','+7 (718)2620222'], email: 'komfortpv@mail.ru'},
+ 									{name: 'Магазин "ИнтерКлимат"', adress:'ул. Ленина 143, редакция газеты "Звезда ПриИртышья", оф.4',  phone: [ '+7 (7182) 631529','+7 (701) 5133009'], email: 'inter-climat@mail.ru'},
+ 									{name: 'Термал Трейд', adress:'ул. Генерала Дюсенова 144',  phone: [ '+7 (7182) 619136','+7 (7182) 619124'], email: '	termal_pv@rambler.ru'}
+								]
+
+							},
+							{
+								city_id: 6, title_city: 'Актау',
+								adress_list : [
+ 									{name: 'ТОО «Вента-Комплект»', adress:'12 мкр-17 дом-2',  phone: [ '+7 (7292) 335110'], email: 'Venta-Komplekt@mail.ru | http://venta-complect.kz'},
+ 									{name: 'Торба О.В.', adress:'мкр "4", зд. 58А (цоколь)	',  phone: [ '+7 (7292) 508667','+7 (701) 6828667'], email: 'banderlog75@mail.ru'},
+ 									{name: 'Полатов М.К.', adress:'мкр "12", д. 67',  phone: [ '+7 (7292) 315234','+7 (701) 5265074'], email: 'kossay74@mail.ru'},
+ 									{name: 'Магазин "Кондиционеры"', adress:'ул. Шуак 23, СОТ синтез, вдоль главной дороги',  phone: [ '+7 (7292) 311533','+7 (701) 5369921'], email: 'bibigul_alagozov@mail.ru'}
+								]
+
+							},
+							{
+								city_id: 7, title_city: 'Атырау',
+								adress_list : [
+ 									{name: 'ТОО "Домино Групп"', adress:'ул. Бигельдинова 57, Магазин Домино Групп',  phone: [ '+7 (7122) 504300','+7 (777) 5006655'], email: ''},
+ 									{name: 'ИП "Барыльник"', adress:'ул.Азаттык 22, магазин "Беркут"',  phone: [ '+7 (701) 2507232','+7 (7122) 327629'], email: 'ser_bak99@mail.ru | ser_bak07@mail.ru'},
+ 									{name: 'Магазин "Микроклимат"', adress:'пр. Азаттык 22',  phone: [ '+7 (7122) 355426','+7 (7122) 756392'], email: 'microclimat@list.ru'},
+ 									{name: 'ТД "Байлык"', adress:'ул. С. Датова 184',  phone: [ '+7 (7122) 368430'], email: 'td_bailyk@mail.ru'},
+ 									{name: 'ИП Файзулина', adress:'ул. Тайманова, пав. 3, б. №39',  phone: [ '+7 (7122) 754019','+7 (701) 5265074'], email: 'yug-services@inbox.ru'},
+ 									{name: 'ТОО "Домино Групп"', adress:'ул. Т. Бигельдинова дом 57	',  phone: [ '+7 (7122) 504300','+7 (777) 5006655 (магазин)','+7 (776) 0822828 (сервис)','+7 (701) 5265074'], email: 'Efremov-fedor@mail.ru'},
+ 									{name: 'Магазин "ЮГ-Сервис"', adress:'ул. Ауэзова 57',  phone: [ '+7 (7122) 454288'], email: 'yug-services@inbox.ru'},
+ 									{name: 'ИП "Polus Group"', adress:'СМП-136, 7, 4',  phone: [ '+7 (702) 4648434'], email: 'polus.atyrau@gmail.com'}
+								]
+
+							},
+							{
+								city_id: 8, title_city: 'Актобе',
+								adress_list : [
+
+ 									{name: 'Салон Алмаком', adress:'Есет-Батыра 122 угол пр. Абая',  phone: ['+7 7132 95-73-33','+7 701 757-63-19', '+7(707)154-08-81'], email: 'climat08@mail.ru'},
+ 									{name: 'ТОО «Комфорт Салон»', adress:'пр. Алии Молдагуловой 46, офис № 005 (Бизнес Центр «Капитал Плаза»)',  phone: [ '+7 (7132) 90-90-90','+7 (7132) 90-80-90'], email: '001rk@bk.ru'},
+ 									{name: 'Климат Техника', adress:'мкр. 12 "Б", участок 29',  phone: [ '+7 (7132) 237535'], email: 'klimataktobe@mail.ru'},
+ 									{name: 'Магазин "Энергия"', adress:'пр. Санкибай Батыра 72',  phone: [ '+7 (7132) 516778','+7 (7132) 516774'], email: ' dmarkip@mail.ru'}
+ 									
+
+								]
+
+							},
+							{
+								city_id: 9, title_city: 'Шымкент',
+								adress_list : [
+ 									{name: 'Магазин быт. техники "ТехноПлюс"', adress:'ул. Интернациональная, б/н	',  phone: [ '+7 (7252) 318902'], email: 'tehnoplus_kz@mail.ru'},
+								]
+
+							},
+							{
+								city_id: 10, title_city: 'Усть-Каменогорск',
+								adress_list : [
+ 									{name: 'ИП "Сервис Плюс"', adress:'ул. Протозанова 95, оф. 203',  phone: [ '+7 (7232) 251179','+7 (705) 5290380'], email: 'servisplus.ofis@mail.ru'},
+ 									{name: 'ТОО ТЕХНО КОМФОРТ', adress:'Геологическая 1/1',  phone: [ '+7 (7232) 785262','+7 (7232) 293213'], email: 'komfort74@mail.ru'},
+ 									{name: 'СовПлим', adress:'ул. Казахстан 68',  phone: [ '+7 (7232) 266608','+7 (7232) 534395'], email: 'sovplymkz@mail.ru'},
+ 									{name: 'ТОО "ТеплоВентСервис"', adress:'ул. Протозанова 83, офис 102',  phone: [ '+7(7232)492139','+7(777)2813636'], email: 'a_klishevich@mail.ru'},
+ 									{name: 'ТОО "SR Engineering"', adress:'ул. Базовая 8/3, офис 207',  phone: [ '87013022648'], email: 'Rs.ing@mail.ru'}
+								]
+
+							},
+							{
+								city_id: 11, title_city: 'Кызылорда',
+								adress_list : [ 
+ 									{name: 'Магазин "Климат Контроль"', adress:'ул. Б.Усербаева 15/16',  phone: [ '+7 (7242) 270839','+7 (7242) 277000'], email: 'climat@mail.ru'},
+ 									{name: 'Магазин "Deluxe"', adress:'ул. Желтоксан 8 уг. ул. Токмаганбетова',  phone: [ '+7 (7242) 278090'], email: 'info@dlx.kz'},
+ 									{name: 'Магазин "CoolMaster"', adress:'ул. Айтеке би 31/1 (Б)',  phone: [ '+7 (7242) 273434'], email: 'mastercool_kz@mail.ru'}
+								]
+
+							},
+							{
+								city_id: 12, title_city: 'Уральск',
+								adress_list : [
+ 									{name: 'ИП "Турцов И.С."', adress:'',  phone: [ '+7 (705) 800-36-66'], email: 'Turcov86@mail.ru'},
+ 									
+ 									{name: 'ТОО "SNK GazTexCeрвис"', adress:'Старый аэропорт 4, ТД «Аяжан» бутик 23	',  phone: [''], email: ''},
+ 									
+ 									{name: 'Магазин КЛИМАТПРО', adress:'ул. Курмангазы 90',  phone: [ '+7 (7112) 25-55-01','+7 (707) 876-18-48','+7 (747) 484-24-73'], email: 'klimatpro@inbox.ru'},
+ 									
+ 									{name: 'ТОО "Алмаком Техника"', adress:'ул.Курамангазы 194',  phone: [ '+7 (777) 797-40-80','+7 (7112) 25-43-84'], email: 'almacom07@yandex.kz | http://almateh.kz/'},
+ 									
+ 									{name: 'ТОО "CLIMATE GROUP"', adress:'ул.Курамангазы 194',  phone: [ '+7 (771) 054-50-40'], email: 'climatgroupe@gmail.com'},
+ 									
+ 									{name: 'Магазин "Тайзер"', adress:'ул. Шолохова 7Н/1 (напротив рынка "Алтын-Алма")	',  phone: [ '+7 (777) 9796999','+7 (7112) 256666'], email: 'bezus@inbox.ru'},
+ 									
+ 									{name: 'Хим маркет', adress:'ул. Темира Масина 67',  phone: [ '+7 (777) 6916416'], email: 'dmitriymaltsev1@gmail.com'},
+ 									
+ 									{name: 'Магазин "Герметик Центр"', adress:'ул. Чапаева 20',  phone: [ '+7 (7112) 260260'], email: 'germeticcenter@mail.ru'},
+ 									
+ 									{name: 'ТОО "AV Service"', adress:'пр. Абулхаир хана,51',  phone: [ '+7 (7112) 939949'], email: 'info@avservice.kz'}
+								]
+
+							},
+							{
+								city_id: 13, title_city: 'Караганда',
+								adress_list : [
+ 									{name: 'ТОО "US Service Kazakhstan"', adress:'ул. Абая, д. 69, оф. 101',  phone: [ '+7 (708) 439 5015','+7 (7212) 395015'], email: 'usservice.sales@inbox.ru'},
+ 									{name: 'ТОО "РосИнЗапчасть"', adress:'ул.Молокова 102, каб.204',  phone: [ '+7 (777) 637 0055','+7 (701) 534 4005'], email: ''},
+ 									{name: 'ИП "Dasmun"	', adress:'г. Караганда, ул.Пригородная 1а',  phone: [ '+7 7212 561 719','+7 702 365 97 65	'], email: ''},
+ 									{name: 'Technical Service Kazakhstan', adress:'г. Караганда, пр. Н. Абдирова, 3 офис 115',  phone: [ '8 7212 366 822','8 7212 366 538','8 7212 424 513','8 7212 424 966','8 7212 420 708'], email: 'tsk_kazakhstan@mail.ru'},
+ 									{name: 'Компания ТОО «Mir-Climata»', adress:'ул. Складская 9/2, офис 201',  phone: [ '+7 (7212) 507789','+7 (776) 5980188','+7 (778) 7463888'], email: 'http://mir-climata.kz | shop.mir-climata@list.ru'},
+ 									{name: 'Компания "Vortex"', adress:'ул. Ерубаева 48, оф. 36',  phone: [ '+7 (7212) 412525','+7 (7212) 568740'], email: 'info@vortex.kz'},
+ 									{name: 'Ритал', adress:'пр.Н.Абдирова 5',  phone: [ '+7 (7212) 425040','+7 (7212) 425232'], email: 'rtl.kz@mail.ru'},
+ 									{name: 'Еникеев Р.', adress:'1) ул. Чижевского 33, оф. 110 2) пр.Н.Абдирова 3',  phone: [ '+7 (7212) 569313','+7 (7212) 922424'], email: 'timax58@mail.ru'}
+								]
+	 
+							},
+							{
+
+								city_id: 14, title_city: 'Тараз',
+								adress_list : [
+ 									{name: 'Беркалов', adress:'ул. Д. Бедного 82',  phone: [ '+7 (777) 1040259','+7 (707) 1602627'], email: 'v_b_70_82@mail.ru'}
+								]
+
+							},
+							{
+								city_id: 15, title_city: 'Талдыкорган',
+								adress_list : [
+ 									{
+	 									name: 'ИП "Климат Плюс"', 
+	 									adress:'Алматинская область, г. Талдыкорган, ул. Гали Орманова 105, 2 этаж.',  
+	 									phone: [ '+7 (700) 425-25-83'], 
+	 									email: 'oleg.pak.1981@mail.ru'
+ 									},
+ 									{name: 'Магазин "IT-Pro"', adress:'ул. Гали Орманова 58',  phone: [ '+7 (7282) 245224	'], email: 'sanchik_82@mail.ru'},
+ 									{name: 'Техносервис', adress:'ул. Гаухар Ана 158	',  phone: [ '+7 (7282) 316124	| +7 (707) 1602627'], email: ''},
+ 									{name: 'Казторгтехника', adress:'	ул. Покрышкина 25',  phone: [ '+7 (7282) 319123'], email: 'kaztorgteh@mail.ru'}
+								]		
+							},
+							{
+								city_id: 16, title_city: 'Темиртау',
+								adress_list : [
+ 									{name: 'СМАРТ KZ', adress:'пр. Металлургов 27, ТД "Версаль"',  phone: [ '+7 (7213) 902609	| 	 	+7 (701) 7389733'], email: '958449@mail.ru'} 
+								]
+
+
+
+							},
+							{
+								city_id: 17, title_city: 'Петропавловск',
+								adress_list : [
+ 									{name: 'Холод Сервис', adress:'ул. Интернациональная 23',  phone: [ '+7 (7152) 363385'], email: 'holod_servis@mail.ru'},
+ 									{name: 'Магазин "Домовенок"', adress:'ул. Жамбыла 149',  phone: [ '+7 (7152) 464492'], email: 'logika2000@mail.ru'},
+ 									{name: 'ВТИ-СОФТ', adress:'ул. Ж. Жабаева 151',  phone: [ '+7 (7152) 462440'], email: 'vtisoft@vtisoft.kz'} 
+								]
+
+							},
+							{
+								city_id: 18, title_city: 'Семей',
+								adress_list : [
+ 									{name: 'Инженер Климата', adress:'ул. Байтурсынова 4, офис 4',  phone: [ '+7 (7222) 362525	| +7 (7222) 442661','+7 (701) 4426566','+7 (707) 1879990'], email: 'air2010z@mail.ru'},
+ 									
+ 									{name: 'Мейрам и Ко	ул.', adress:'Дулатова 208, ТД "СТАН"',  phone: [ '+7 (7222) 565610','+7 (7222) 521349'], email: 'rutizna7@rambler.ru'}
+								]
+							},
+							{
+								city_id: 19, title_city: 'Кокшетау',
+								adress_list : [
+ 									{name: 'Split Company', adress:'ул. Пушкина 18',  phone: [ '+7 (7162) 402478'], email: '402478@mail.ru'},
+ 									{name: 'Компания Морозко', adress:'ул. Ауельбекова 147, 1',  phone: [ '+7 (777) 3185161'], email: 'info@morozko.kz'}
+								]
+
+							},
+							{
+								city_id: 20, title_city: 'Костанай',
+								adress_list : [
+ 									{name: 'Энергосервис плюс', adress:'ул. Тарана 155, каб. 8',  phone: [ '+7 (7142) 540558','+7 (705) 2138707'], email: 'pankratov30@yandex.ru'}
+								]
+
+							},
+							{
+								city_id: 21, title_city: 'Аксай',
+								adress_list : [
+ 									{name: 'SVNCOM Service	', adress:'мкр. 5, дом.1.	',  phone: [ '+7 777 212 52 46','+7 705 811 92 12'], email: 'Svncom_service@mail.ru | Zhuhrai@inbox.ru'},
+ 									{name: 'Магазин "Все для комфорта"', adress:'мкр. "4", д.11, под. 2	',  phone: [ '+7 (71133) 30119','+7 (777) 8195473'], email: 'bezus@inbox.ru'}
+								]
+
+							},
+							{
+								city_id: 22, title_city: 'Рудный',
+								adress_list : [
+ 									{name: 'ЭлектроМир 2010', adress:'ул. Ленина д.215а',  phone: [ '+7 (7143) 162813'], email: 'sale@eletkromir.kz'}
+								]
+
+							},
+							{
+								city_id: 23, title_city: 'Экибастуз',
+								adress_list : [
+ 									{name: 'ТД " Дария"	', adress:'ул. Королева 83',  phone: [ '+7(7187) 330721','+7(7187) 300711'], email: 'manager_tdd@mail.ru'}
+								]
+
+							},
+							{
+								city_id: 24, title_city: 'Жезказган',
+								adress_list : [
+ 									{name: 'Магазин "Vizit"	', adress:'ул. Б. Гарышкелер д.1',  phone: [ '+7 (7102) 720211'], email: 'mev1960@mail.ru'},
+ 									{name: 'Техносалон "Бригадир"', adress:'ул.Сейфуллина 60а, ТД "Турсынай Ана"',  phone: [ '+7 (7102) 721824'], email: 'kub_kz@mail.ru'},
+ 									{name: 'Магазин "Plus"', adress:'ул. Есенберлина 9а',  phone: [ '+7 (701) 5590806','+7 (7102) 711244','+7 (701) 5344005'], email: 'dagvi05@list.ru'}
+								] 	 		 
+							},
+						]
+				}				
+			]
+		};
+ 
+
+start(1, 3);
+
+$(document).on( 'click', '.country .my_dropdown-item', function() {
+	var select = $(this).data('value');
+	var search_item_json = json.data.find(item => item.id_country === select); 
+
+	if (search_item_json) { 
+		$(".my_dropdown-main.city .my_dropdown-selected").text(search_item_json.city_list[0].title_city);
+		$(".my_dropdown-list.city").html("");
+		$(".dm-body-branches").html("");
+
+		$.each(search_item_json.city_list, function( index, value ) { 
+				$(".my_dropdown-list.city").append(
+					'<li class="my_dropdown-item" data-value="'+value.city_id+'">'+value.title_city+'</li>'
+				)
+		});
+
+		start(1, select);
+	}else{
+		alert('Ничего не найденно!');
+	}
+});
+
+
+$(document).on( 'click', '.city .my_dropdown-item', function() {
+	start($(this).data('value'),  $('input[name="country"]').val());
+});
+
+function start(city = 1, country = 3){ 
+	var search_item_json = json.data.find(item => item.id_country === parseInt(country) );
+
+	var city_select = search_item_json.city_list.find(item => item.city_id === city); 
+
+	$(".dm-body-branches").html("");
+	var array_phone = [];
+	var html = '';
+
+	$.each(city_select.adress_list, function( index, value ) { 
+		
+ 		html += '<div class="dmb-branches-item">' +
+							'<div class="selfpick-address">' +
+								'<div class="selfpick-address-text">' +
+									'<p class="sa-text-name">'+ value.name +'</p>' +
+									'<p class="sa-text-location">'+ value.adress +'</p>' +
+									'<div class="sa-text-time">' +
+										'<p class="sat-time-open">Контакты</p>';;
+
+		if ( Array.isArray(value.phone) ) {
+			html +=  '<p class="sat-time-hours">';
+				$.each(value.phone, function( index, value ) {
+					html +=  '<a href="tel:'+value+'">'+value+'</a>';
+				}); 	
+			html +=  '</p>';
+		}
+
+		html +=  '<p class="sat-time-hours"><a href="mailto:'+value.email+'">'+value.email+'</a></p>' +
+									'</div>' +
+								'</div>' + 
+							'</div>' +
+						'</div>';
+
+	});
+	
+						$(".dm-body-branches").append(html);
+}
+</script>
+
+
+		{% endif %}
+	</div>
+</div>
+<style type="text/css">
+.sat-time-hours a {
+    margin-right: 10px;
+}
+</style>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form action="?" class="map-info-form" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls">
+        <label>
+          <p class="mif-controls-title">Ваше имя</p>
+          <input type="text" name="your_name" value="" placeholder="Ваше имя">
+        </label>
+        <label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p>
+          <input type="tel" name="your_phone" value="" placeholder="+7">
+        </label>
+        <label>
+          <p class="mif-controls-title">Ваше сообщение</p>
+          <input type="text" name="your_message" value="" placeholder="Сообщение...">
+        </label>
+      </div>
+      <div class="mi-form-buttons">
+        <button class="button" type="submit">Отправить</button>
+        <div class="g-recaptcha-container">
+                    <div class="g-recaptcha-item" id="recaptchaMain"></div>
+                    <div class="recaptcha-error d-none"></div>
+                </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{ footer }}

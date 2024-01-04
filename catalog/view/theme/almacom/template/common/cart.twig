@@ -1,0 +1,12 @@
+<a class="hm-links-link cart-link" href="{{ cart }}">
+{% if home == og_url %}
+    {{ text_items }}
+{% else %}
+	{{ text_items }}
+	<script>
+		$(function(){
+			$('.cart-link').find('.sprite').removeClass('sprite-cart').addClass('sprite-cart-2');
+		})
+	</script>
+{% endif %}
+</a>

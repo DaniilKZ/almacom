@@ -1,0 +1,350 @@
+ 
+{{ header }}
+
+<div class="theme-container">
+  <div class="theme-container-in wrapper">
+    <div class="cart-form">
+      <main class="cart-main">
+        <!-- FINAL MAIN-->
+        <div class="final_main">
+          <div class="cart_main">
+            <h1 class="cart_main-title">{{ heading_title }}</h1>
+
+<script type="text/javascript">
+        //checkout/login
+        $.ajax({
+            url: 'index.php?route=checkout/login',
+            dataType: 'html',
+            success: function(html) {
+              console.log('Login инициализировался.'); 
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        //checkout/login
+
+        //checkout/guest
+        $.ajax({
+            url: 'index.php?route=checkout/guest',
+            dataType: 'html',
+            beforeSend: function() {
+                // $('#button-account').button('loading');
+            },
+            complete: function() {
+                // $('#button-account').button('reset');
+            },
+            success: function(html) { 
+                $('.fms-step-inputs').html(html);
+                console.log('guest Инициализировался');
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        //checkout/guest
+
+
+        //payment_method
+        $.ajax({
+          url: 'index.php?route=checkout/payment_method',
+          dataType: 'html',
+          success: function(html) {
+            console.log('Init payment_method');
+
+               $.ajax({
+                    url: 'index.php?route=checkout/payment_method/save',
+                    type: 'post',
+                    data: $('#collapse-payment-method input[type=\'radio\']:checked, #collapse-payment-method input[type=\'checkbox\']:checked, #collapse-payment-method textarea'),
+                    dataType: 'json',
+                    beforeSend: function() {
+                    },
+                    success: function(json) {
+                        if (json['redirect']) {
+                            location = json['redirect'];
+                        } else if (json['error']) {
+                            $('#button-payment-method').button('reset');
+                            
+                            if (json['error']['warning']) {
+                                alert(json['error']['warning']);
+                            }
+                        } else {
+                            $.ajax({
+                                url: 'index.php?route=checkout/shipping_method',
+                                dataType: 'html',
+                                complete: function() {
+                                    $('#button-guest').button('reset');
+                                },
+                                success: function(html) {
+
+                                    //Метод доставки
+                                    $.ajax({
+                                        url: 'index.php?route=checkout/guest_shipping',
+                                        dataType: 'html',
+                                        success: function(html) {
+                                        $.ajax({
+                                            url: 'index.php?route=checkout/shipping_method/save',
+                                            type: 'post',
+                                            data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
+                                            dataType: 'json',
+                                            beforeSend: function() {
+                                        },
+                                            success: function(json) {
+
+                                                if (json['redirect']) {
+                                                    location = json['redirect'];
+                                                } else if (json['error']) {
+                                                    $('#button-shipping-method').button('reset');
+
+                                                    if (json['error']['warning']) {
+                                                        alert(json['error']['warning']);
+                                                    }
+                                                } else {
+                                                    $.ajax({
+                                                        url: 'index.php?route=checkout/payment_method',
+                                                        dataType: 'html',
+                                                        complete: function() {
+                                                            $('#button-shipping-method').button('reset');
+                                                        },
+                                                        success: function(html) {
+//confir
+                            $.ajax({
+                                url: 'index.php?route=checkout/confirm',
+                                dataType: 'html',
+                                complete: function() {
+                                },
+                                success: function(html) {
+                                  $('#collapse-checkout-confirm').html(html);
+                                  console.log('confirm Успешно');
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+//confir
+                                                        },
+                                                        error: function(xhr, ajaxOptions, thrownError) {
+                                                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                                        }
+                                                    });
+                                                }
+                                            },
+                                            error: function(xhr, ajaxOptions, thrownError) {
+                                                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                            }
+                                        });
+                                        //Метод доставки
+
+
+
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                        }
+                                    }); 
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+
+
+
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+        });
+        //payment_method
+
+
+
+$(document).delegate('.delivery-button', 'click', function() { 
+  var id_for = $(this).attr('for');
+
+  $('input[name="shipping_method"]').prop('checked', false);
+  $('input[name="shipping_method"]').attr('checked', false);
+  $("#"+id_for).prop('checked', true);
+  $("#"+id_for).attr('checked', true);
+
+  $(".delivery-block").css({'display':'none'});
+  $('div[data-for="'+id_for+'"]').css({'display':'block'});
+});
+
+$(document).delegate('.payment_button', 'click', function() { 
+  var id_for = $(this).attr('for');
+
+  $('input[name="payment_method"]').prop('checked', false);
+  $('input[name="payment_method"]').attr('checked', false);
+  $("#"+id_for).prop('checked', true);
+  $("#"+id_for).attr('checked', true);
+
+});
+
+
+$(document).delegate('#button-confirm', 'click', function() { 
+  var payment = $('#collapse-payment-method input[type=\'radio\']:checked').val();
+   
+
+  $.ajax({
+    url: 'index.php?route=extension/payment/'+payment+'/confirm',
+    dataType: 'json',
+    beforeSend: function() {
+      $('#button-confirm').button('loading');
+    },
+    complete: function() {
+      $('#button-confirm').button('reset');
+    },
+    success: function(json) {
+      if (json['redirect']) {
+        location = json['redirect'];  
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  });
+});
+</script>
+ 
+            <div class="final_main-steps">
+              <div class="fm-steps-step">
+                <div class="fms-step-title">1. Контактные данные</div>
+                <div class="fms-step-inputs">
+
+                </div>
+              </div>
+              <div class="fm-steps-step" id="receipt-method">
+                <div class="fms-step-title">2. Способ получения</div>
+                <div class="fms-step-receipt">
+                  <div class="fmss-receipt-radios" id="collapse-shipping-method">
+                    <label class="theme-radio">
+                      <input class="d-none" type="radio" id="delivery" name="shipping_method" value="free.free" >
+                      <span for="delivery" class="delivery-button radio-text">Доставка</span>
+                    </label>
+                    <label class="theme-radio">
+                      <input type="radio"  class="d-none" id="selfpick" name="shipping_method" value="pickup.pickup" checked="checked"> 
+                      <span for="selfpick" class="delivery-button radio-text">Самовывоз</span>
+                    </label>
+                  <input type="checkbox" class="d-none" name="shipping_address" value="1" checked="checked" />
+                  </div>
+                  <div class="fmss-receipt-options">
+                    <div class="fmssr-options-delivery delivery-block" data-for="delivery">
+            
+                      <div class="form-group required">
+                        <label for="input-shipping-address-1">Адрес* 
+                          <input type="text" name="address_1" value="Адрес" placeholder="Адрес 1" id="input-shipping-address-1" class="">
+                        </label>
+
+                        <label for="input-shipping-city">Город*
+                          <input type="text" name="city" value="Город" placeholder="Город" id="input-shipping-city" class="">
+                        </label>
+                      </div> 
+        
+                    </div>
+                    <div class="fmssr-options-selfpick delivery-block" data-for="selfpick">
+                      <div class="selfpick-address">
+                        <div class="selfpick-address-text">
+                          <p class="sa-text-name">Салон "Климат"</p>
+                          <p class="sa-text-location">г. Алматы, Муратбаева 164/110, уг. ул. Карасай батыра</p>
+                          <div class="sa-text-time">
+                            <p class="sat-time-open">Работает</p>
+                            <p class="sat-time-hours">с 10:00 до 22:00</p>
+                          </div>
+                        </div>
+                        <div class="selfpick-address-map">
+                          <div class="sa-map-in"><img src="catalog/view/theme/almacom/img/cart-final-step-map.png" alt=""></div>
+                          <div class="sa-map-button"><span class="sam-button-btn">Кликните, чтобы увеличить</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="fm-steps-step">
+                <div class="fms-step-title">3. Подтверждение и оплата</div>
+                <div class="fms-step-payment">
+                  <p class="fmss-payment-title">Выберите способ оплаты</p>
+                  <div class="fmss-payment-radios" id="collapse-payment-method">
+                    <label class="theme-radio">
+                      <input checked class="d-none" type="radio" name="payment_method" id="cod" value="cod"> 
+                      <span for="cod" class="radio-text payment_button">При получении</span>
+                    </label>
+                    <label class="theme-radio">
+                      <input class="d-none" type="radio" name="payment_method" id="bank_transfer" value="bank_transfer"> 
+                      <span for="bank_transfer" class="radio-text payment_button">Банковской картой онлайн</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="final_main-result">
+              <p class="fm-result-count">1 товар, 1 услуга</p>
+              <p class="fm-result-sum">Итого: 110 800 ₸</p>
+            </div>
+            <div class="final_main-buttons">
+
+ 
+    <input type="button" value="Оформить заказ" id="button-confirm" data-loading-text="{{ text_loading }}" class="fm-buttons-btn ci-main-btn" />  
+ 
+            </div>
+            <div class="final_main-terms">
+              <p>Внимание! Окончательная стоимость заказа, если в нем присутствуют товары и/или услуги, участвующие в акции, будет подтверждена после обработки заказа сотрудником компании.</p>
+              <p>Нажимая на кнопку «Оформить заказ», я даю разрешение Обществу с ограниченной ответственностью "Алмаком" (далее - «Алмаком») в целях заключения и исполнения договора купли-продажи обрабатывать - собирать, записывать, систематизировать, накапливать, хранить, уточнять (обновлять, изменять), извлекать, использовать, передавать (в том числе поручать обработку другим лицам), обезличивать, блокировать, удалять, уничтожать - мои персональные данные: фамилию, имя, номера домашнего и мобильного телефонов, адрес электронной почты. Согласие может быть отозвано мною в любой момент путем направления письменного уведомления по адресу Алмаком. Ознакомиться с <a href="#">Политикой персональных данных</a>.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+      <aside class="cart-aside">
+        <!-- FINAL INFOBOX-->
+        <div class="final_infobox"  id="collapse-checkout-confirm"> 
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="#"><i class="sprite sprite-vk"></i></a><a href="#"><i class="sprite sprite-instagram"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form class="map-info-form" action="#" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls"><label>
+          <p class="mif-controls-title">Ваше имя</p><input type="text" name="" value="" placeholder="Ваше имя">
+        </label><label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p><input type="tel" name="" value="" placeholder="+7">
+        </label><label>
+          <p class="mif-controls-title">Ваше сообщение</p><input type="text" name="" value="" placeholder="Сообщение...">
+        </label></div>
+      <div class="mi-form-buttons"><button class="button" type="submit">Отправить</button><label class="theme-checkbox"><input type="checkbox" name="" value=""><span class="checkbox-icon"><i class="sprite sprite-tick"></i></span><span>Я не робот!</span></label></div>
+      <div class="mi-form-success d-none"><img src="catalog/view/theme/almacom/img/check-mark-blue.png" alt="">
+        <p>Заявка упешно отправлена!</p><span class="mif-success-btn button">Закрыть</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{ footer }}

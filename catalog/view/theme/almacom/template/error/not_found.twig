@@ -1,0 +1,61 @@
+{{ header }}
+
+<!-- SPEEDBAR-->
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+    {% for breadcrumb in breadcrumbs %}
+      {% if loop.index != breadcrumbs|length %}
+      <a class="speedbar-link" href="{{ breadcrumb.href }}">
+        <span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"></i>
+      </a>
+      {% else %}
+      <span class="speedbar-end">{{ breadcrumb.text }}</span>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<div class="theme-container">
+	<div class="theme-container-in wrapper">
+		<h1 class="cart_main-title">{{ heading_title }}</h1>
+		<p>{{ text_error }}</p>
+	</div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form class="map-info-form" action="#" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls"><label>
+          <p class="mif-controls-title">Ваше имя</p><input type="text" name="" value="" placeholder="Ваше имя">
+        </label><label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p><input type="tel" name="" value="" placeholder="+7">
+        </label><label>
+          <p class="mif-controls-title">Ваше сообщение</p><input type="text" name="" value="" placeholder="Сообщение...">
+        </label></div>
+      <div class="mi-form-buttons"><button class="button" type="submit">Отправить</button><label class="theme-checkbox"><input type="checkbox" name="" value=""><span class="checkbox-icon"><i class="sprite sprite-tick"></i></span><span>Я не робот!</span></label></div>
+      <div class="mi-form-success d-none"><img src="catalog/view/theme/almacom/img/check-mark-blue.png" alt="">
+        <p>Заявка упешно отправлена!</p><span class="mif-success-btn button">Закрыть</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{ footer }}

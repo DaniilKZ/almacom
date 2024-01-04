@@ -1,0 +1,318 @@
+{{ header }}
+
+<style>
+/*button.cts-buttons-btn:nth-child(2),
+button.cts-buttons-btn:nth-child(3),
+button.cts-buttons-btn:nth-child(8), button.cts-buttons-btn:nth-child(9), button.cts-buttons-btn:nth-child(7) {
+    display: none;
+}*/
+</style>
+
+<!-- SPEEDBAR-->
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+	{% for breadcrumb in breadcrumbs %}
+	  {% if loop.index != breadcrumbs|length %}
+	  <a class="speedbar-link" href="{{ breadcrumb.href }}">
+		<span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+	  </a>
+	  {% else %}
+	  <span class="speedbar-end">{{ breadcrumb.text }}</span>
+	  {% endif %}
+	{% endfor %}
+  </div>
+</section>
+
+
+<div class="theme-container">
+	<div class="theme-container-in wrapper">
+		<div class="content-row">
+			{% if categories %}
+				{% if filter_column_check %}
+					{{ column_left }}
+				{% endif %}
+			{% endif %}
+
+
+			<main class="content-main">
+
+				<!-- CATALOG CONTENT-->
+				<div class="catalog_content">
+					<h1 class="content-heading">{{ heading_title }}</h1>
+					<div class="catalog_content-text">
+						<p>{{ description }}</p>
+					</div>
+{#					{% if category_id != 59 %}#}
+						{% if categories %}
+						<ul class="catalog_content-list">
+							{% for category in categories %}
+								<li class="cc-list-item">
+									<a class="card_catalog" href="{{ category.href }}">
+										<div class="card_catalog-image">
+											{% if category.thumb %}
+												<img src="{{ category.thumb }}" alt="{{ category.name }}">
+											{% else %}
+												<img src="catalog/view/theme/almacom/img/nophoto.png"
+													 alt="{{ category.name }}">
+											{% endif %}
+										</div>
+										<div class="card_catalog-name">
+											<span>{{ category.name }}</span>
+										</div>
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+{#					{% endif %}#}
+				</div>
+
+				{% if filter_column_check %}
+				<!-- CATEGORY CONTENT-->
+				<div class="category_top">
+					<div class="category_top-heading"> 
+						<noindex>
+							<h2 class="content-title"><span class="content-title-count">Количество товаров:&nbsp;{{ product_total }}</span></h2>
+						</noindex>
+					</div>
+
+					<div  class="mobile_category_filters">
+
+						{%  if isMobile  %}
+							{{ column_left }}
+						{% endif %}
+
+						<div class="category_top-sorting">
+							<div class="ct-sorting-title">
+								<span class="cts-title-text">Сортировать по</span>
+								<i class="sprite sprite-arrow-down-sorting"><svg><use xlink:href="#arrow"></use></svg></i>
+							</div>
+							<div class="ct-sorting-buttons">
+							{% for sorts in sorts %}
+								{% if sorts.value == '%s-%s'|format(sort, order) %}
+								<button class="cts-buttons-btn active">
+									{{ sorts.text }}
+								</button>
+								{% else %}
+								<button class="cts-buttons-btn" onclick="location = '{{ sorts.href }}'">
+									{{ sorts.text }}
+								</button>
+								{% endif %}
+							{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="category_top-sorting">
+						<div class="ct-sorting-title"><span>Сортировать по:</span></div>
+						<div class="ct-sorting-buttons">
+						{% for sorts in sorts %}
+							{% if sorts.value == '%s-%s'|format(sort, order) %}
+							<button class="cts-buttons-btn active">
+								{{ sorts.text }}
+							</button>
+							{% else %}
+							<button class="cts-buttons-btn" onclick="location = '{{ sorts.href }}'">
+								{{ sorts.text }}
+							</button>
+							{% endif %}
+						{% endfor %}
+						</div>
+						{# <div class="ct-sorting-links"><a class="cts-links-link" href="#">Подобрать кондиционер</a></div> #}
+					</div>
+				</div>
+				{% endif %}
+
+				<!-- CATEGORY LIST-->
+				<div class="categroy_list">
+					<ul class="content_list-list product-layout">
+ 
+					{% for product in products %}
+						<li class="cl-list-item">
+							<div class="card-product">
+								<a class="card-product-image" style="display: block" href="{{ product.href }}">  
+									<span style="{% if product.jan == ''  %}display: none{% endif %}" class="cp-features-new">{{product.jan}}</span>
+									<div class="cp-image-list">
+										<div class="cpi-list-item">
+											<img src="{{ product.thumb }}" alt="{{ product.name }}">
+										</div>
+									</div>
+								</a>
+								<div class="card-product-data">
+								  <div class="card-product-presence">{{ product.stock }}</div>
+								  <a href="{{ product.href }}"><h3 class="card-product-name">{{ product.name }} {{ " " ~ product.model }} 
+								  {% if product.ean %} {{ "<br><small class='product-badge' style=''>Серия " ~ product.ean ~ "</small>"}} {% endif %}</h3></a>
+								  {% if product.price %}
+								  {% if not product.special %}
+								  <div class="card-product-price">
+									{% if product.options %}
+									{% for option in product.options %}
+									{% if option.type == 'radio' %}
+									<span>от</span>
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									<span>{{ product.price }}</span>
+								  </div>
+								  {% else %}
+								  <div class="card-product-price">
+								  	{% if product.options %}
+									{% for option in product.options %}
+									{% if option.type == 'radio' %}
+									<span>от</span>
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									<span>{{ product.special }}</span>
+									<span class="cp-price-discount">{{ product.discount_percent }}%</span>
+								  </div>
+								  <div class="card-product-discount">
+								  	{% if product.options %}
+									{% for option in product.options %}
+									{% if option.type == 'radio' %}
+									<span>от</span>
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									<span>{{ product.price }}</span>
+								  </div>
+								  {% endif %}
+								  {% endif %}
+								  <div class="card-product-buttons">
+									<a class="cp-buttons-link button" href="{{ product.href }}">Подробнее</a>
+									{# <button class="cp-features-fav" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="sprite sprite-heart-empty"></i></button> #}
+								  </div>
+								</div>
+							  </div>
+						</li>
+					{% endfor %} 
+					</ul>
+				</div>
+<!-- 				<div  class="scrollhandlerdiv">
+					<button class="button ScrollHandler">Показать еще</button>
+				</div> -->
+
+
+      <div class="row"  > 
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div> 
+				{% if not categories and not products %}
+				<p style="margin-top: 30px;margin-bottom: 45px;text-align: center;">{{ text_empty }}</p>
+				{% endif %}
+
+				<!-- CATEGORY BANNER-->
+				<div class="category_banner">
+					<div class="banner">
+						<div class="banner-pic"><img src="catalog/view/theme/almacom/img/girl-with-phone.png" alt=""></div>
+						<div class="banner-text">
+							<p class="banner-text-title">Не хотите выбирать?</p>
+							<p class="banner-text-main">Наши специалисты помогут подобрать необходимую вам продукцию нашей компании. <br>Оставьте заявку и мы вам перезвоним</p>
+							<div class="banner-text-buttons"><a class="bt-buttons-btn order-a-call">Обратный звонок</a><a class="bt-buttons-btn bt-buttons-btn_ol" href="index.php?route=information/contact">Как до нас добраться?</a></div>
+						</div>
+					</div>
+				</div>
+
+				<div style="margin-top: 30px;margin-bottom: 45px; " class="seo_text"  >
+					<div class="block">
+						{{ seo_text }}
+					</div>
+					<a href="#" class="btn-half">
+						<span class="see-more-show">Показать больше текста</span>
+						<span class="see-more-hidden">Скрыть текст</span>
+					</a>
+				</div>
+
+				<style>
+					.block {
+						max-height: 70px;
+						overflow: hidden;
+						transition: 0.35s ease-out;
+					}
+					.block-open {
+						max-height: 999px;
+						transition: max-height 0.45s ease-in;
+					}
+					.btn-half{
+						margin: 0 auto;
+						margin-top: 20px;
+						text-align: center;
+						width: 100%;
+					}
+					.hidden{
+						display: none;
+					}
+					.show{
+						display: block;
+					}
+					.see-more-hidden{
+						display: none;
+					}
+					.see-more-show{
+						display: block;
+					}
+
+				</style>
+
+				<script>
+					(function() {
+						$('.btn-half').on('click', function() {
+							$('.block').toggleClass('block-open');
+							$('.see-more-show').toggleClass('hidden');
+							$('.see-more-hidden').toggleClass('show');
+						});
+					})();
+
+				</script>
+			</main>
+		</div>
+	</div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164/110<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list">{# <a href="#"><i class="sprite sprite-vk"></i></a> #}<a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form action="?" class="map-info-form" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls">
+        <label>
+          <p class="mif-controls-title">Ваше имя</p>
+          <input type="text" name="your_name" value="" placeholder="Ваше имя">
+        </label>
+        <label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p>
+          <input type="tel" name="your_phone" value="" placeholder="+7">
+        </label>
+        <label>
+          <p class="mif-controls-title">Ваше сообщение</p>
+          <input type="text" name="your_message" value="" placeholder="Сообщение...">
+        </label>
+      </div>
+      <div class="mi-form-buttons">
+        <button class="button" type="submit">Отправить</button>
+        <div class="g-recaptcha-container">
+                    <div class="g-recaptcha-item" id="recaptchaMain"></div>
+                    <div class="recaptcha-error d-none"></div>
+                </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{ footer }}
+

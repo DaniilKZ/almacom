@@ -1,0 +1,55 @@
+                        <div class="cart_infobox-main">
+
+{% if attention %}
+    <div class="alert alert-danger simplecheckout-warning-block">{{ attention }}</div>
+{% endif %}
+{% if error_warning %}
+    <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning }}</div>
+{% endif %}
+
+                            <div class="final_infobox-title">{{ products|length }} позиция в заказе</div>
+                            <ul class="final_infobox-list">
+
+                {% for product in products %}
+                    {% if product['recurring'] is not empty %}
+                            <td class="simplecheckout-recurring-product" style="border:none;"><img src="{{ additional_path }}catalog/view/theme/default/image/reorder.png" alt="" title="" style="float:left;" />
+                                <span style="float:left;line-height:18px; margin-left:10px;">
+                                <strong>{{ text_recurring_item }}</strong>
+                                {{ product['profile_description'] }}
+                                </span>
+                            </td> 
+                    {% endif %}
+
+                                <li class="fi-list-item">
+                                    <p class="fil-item-name"><a href="{{ product['href'] }}">{{ product['name'] }}</a></p>
+                                    <p class="fil-item-count">
+                                         {% if product['old_price'] is not empty %}
+                                            <span style="text-decoration: line-through;">{{ product['old_price'] }}</span>
+                                         {% endif %}
+                                            {{ product['price'] }} - {{ product['quantity'] }} шт
+                                    </p>
+                                    {% if not product['stock'] and (config_stock_warning or not config_stock_checkout) %}
+                                        <span class="product-warning">***</span>
+                                    {% endif %}
+                                </li>  
+                {% endfor %}
+                            </ul>
+                            <hr>
+                            <div class="final_infobox-sum">
+                                <span>Итого</span>
+                                <p class="fi-sum-amount">
+                                   {% if totals|length > 0 %}
+                                        {{ totals[0]['text']}}
+                                   {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+

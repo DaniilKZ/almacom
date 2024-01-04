@@ -1,0 +1,262 @@
+{{ header }}
+
+<section class="speedbar">
+  <div class="speedbar-in wrapper">
+    {% for breadcrumb in breadcrumbs %}
+      {% if loop.index != breadcrumbs|length %}
+      <a class="speedbar-link" href="{{ breadcrumb.href }}">
+        <span class="speedbar-link-text">{{ breadcrumb.text }}</span><i class="sprite sprite-arrow-right-3-light"><svg><use xlink:href="#arrow"></use></svg></i>
+      </a>
+      {% else %}
+      <span class="speedbar-end">{{ breadcrumb.text }}</span>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<div class="theme-container">
+	<div class="theme-container-in wrapper">
+      <form class="cart-form">
+			<main class="cart-main">
+				<!-- CART MAIN-->
+				<div class="cart_main">
+					<h1 class="cart_main-title">Корзина</h1>
+					<ul class="cart_main-list">
+						{% for product in products %}
+						<li class="cm-list-item">
+							<div class="card_cart">
+								<span style="{% if product.jan == ''  %}display: none{% endif %}" class="cp-features-new">{{product.jan}}</span>
+								<div class="card_cart-img">
+									<img src="{% if product.thumb != '' %}{{ product.thumb }}{% else  %}/image/cache/catalog/no_photo-47x47.png{% endif %}" alt="{{ product.name }}">									
+								</div>
+
+								<div class="card_cart-text">{# <span class="cc-text-articul">Артикул:&nbsp;{{ product.model }}</span> #}
+									<h2 class="cc-text-name">{{ product.name }}</h2>
+								</div>
+								<div class="card_cart-counter">
+
+									{% if product.product_id != '91'  %}
+
+									<div class="product-counter">
+										<span data-key="{{ product.cart_id }}"  class="button_update_{{ product.cart_id }} product-counter-less">-</span>
+										<span data-key="{{ product.cart_id }}" class="product-counter-value">{{ product.quantity }}</span>
+										<span data-key="{{ product.cart_id }}" class="button_update_{{ product.cart_id }} product-counter-more">+</span> 
+										<script type="text/javascript">
+
+										</script>
+										<input class="d-none" type="hidden" id="quantity_{{ product.cart_id }}" 
+										name="quantity[{{ product.cart_id }}]" value="{{ product.quantity }}" size="1" class="form-control" />
+									</div>
+									{% endif %}
+								</div>
+								<div class="card_cart-sum">
+									<span class="cart-item-price d-none">{{ product.price }}</span>
+									<span class="cart-item-total">{{ product.total }}</span>
+								</div>
+								<div class="card_cart-controls">
+									{# <span class="cc-controls-fav"><i class="sprite sprite-heart-empty-small"></i></span> #}
+									<span data-toggle="tooltip"  title="{{ button_remove }}" class="cc-controls-delete"><i class="sprite sprite-delete" onclick="cart.remove('{{ product.cart_id }}');document.location.reload(true)"><svg><use xlink:href="#delete"></use></svg></i></span>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+					{# <div class="cart_main-additionals">
+						<h3 class="cm-additionals-title"><span>Дополнительные услуги</span><i class="sprite sprite-arrow-down"></i></h3>
+						<ul class="cm-additionals-list">
+					<!-- 		<li class="cma-list-item">
+								<div class="cmal-item-name">
+									<label {% if usluga == 'true'  %} onclick="cart.remove( {{ usluga_cart_id }} );" {% endif %} for="install" class="theme-checkbox install-add">
+										<input  {% if usluga == 'true'   %} checked="checked" {% endif %}  id="install" type="checkbox" name="" value="91">
+										<span class="checkbox-icon {% if usluga == 'true'   %} checked {% endif %}" ><i class="sprite sprite-tick"></i></span><span>Установка и монтаж конидционера</span>
+									</label>
+								</div>
+								<div class="cmal-item-price"><span>5000 ₸</span></div>
+							</li> -->
+							<!-- <li class="cma-list-item">
+								<div class="cmal-item-name">
+									<label class="theme-checkbox install-add">
+										<input type="checkbox" name="" value=""><span class="checkbox-icon"><i class="sprite sprite-tick"></i></span><span>Доставка до дома или офиса</span>
+									</label>
+								</div>  <div class="cmal-item-price"><span>1300 ₸</span></div> 
+							</li> -->
+						</ul>
+					</div> #}
+				</div>
+			</main>
+			<aside class="cart-aside">
+				<!-- CART INFOBOX-->
+				<div class="cart_infobox">
+					<div class="cart_infobox-main">
+						<h6 class="ci-main-title">В корзине</h6>
+						{# <p class="ci-main-count">1 товар, 1 услуга</p> #}
+						<p class="ci-main-sum"></p>
+						<hr>
+						<a class="ci-main-btn" href="{{ checkout }}">Оформить заказ</a>
+					</div>
+					<div class="cart_infobox-hint">
+						<p>Обращаем Ваше внимание, что окончательная стоимость и состав заказа, если в нем присутствуют товары и/или услуги, участвующие в акции, будет подтверждена после обработки заказа.</p>
+					</div>
+				</div>
+			</aside>
+		</form>
+	</div>
+</div>
+
+<!-- MAP -->
+<section class="map">
+  <div class="map-body"></div>
+  <div class="map-info wrapper">
+    <div class="map-info-contacts">
+      <p class="mi-contacts-title">Мы будем рады ответить на ваши вопросы и получить обратную связь</p>
+      <div class="mi-contacts-details">
+        <p class="mic-details-address">г. Алматы, Муратбаева 164<br><span class="micd-address-hint">(уг. ул. Карасай батыра)</span></p>
+        <p class="mic-details-tel"><a href="tel:+77470948627">+7 (747) 094-86-27</a></p>
+        <p class="mic-details-mail"><a href="mailto:shop@almacom.kz">shop@almacom.kz</a></p>
+        <div class="mic-details-socials">
+          <p class="micd-socials-title">Социальные сети и мессенджеры:</p>
+          <p class="micd-socials-list"><a href="https://www.instagram.com/almacom.kz/" target="_blank"><i class="sprite sprite-instagram"><svg><use xlink:href="#instagram"></use></svg></i></a></p>
+        </div>
+      </div>
+    </div>
+    <form action="?" class="map-info-form" method="post">
+      <div class="mi-form-top">
+        <h6 class="mif-top-heading">Обратная связь</h6>
+        <p class="mif-top-hint">Вы можете оставить свой отзыв или задать интересующий вас вопрос</p>
+      </div>
+      <div class="mi-form-controls">
+        <label>
+          <p class="mif-controls-title">Ваше имя</p>
+          <input type="text" name="your_name" value="" placeholder="Ваше имя">
+        </label>
+        <label>
+          <p class="mif-controls-title">Укажите ваш номер телефона</p>
+          <input type="tel" name="your_phone" value="" placeholder="+7">
+        </label>
+        <label>
+          <p class="mif-controls-title">Ваше сообщение</p>
+          <input type="text" name="your_message" value="" placeholder="Сообщение...">
+        </label>
+      </div>
+      <div class="mi-form-buttons">
+        <button class="button" type="submit">Отправить</button>
+        <div class="g-recaptcha-container">
+                    <div class="g-recaptcha-item" id="recaptchaMain"></div>
+                    <div class="recaptcha-error d-none"></div>
+                </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{ footer }}
+ 
+
+<script type="text/javascript"><!--
+
+$(document).on('click', '#install', function() {
+  
+	var obj = {  
+		quantity: 1,
+		product_id: 91
+	};
+ 
+
+	$.ajax({
+		url: '/index.php?route=common/cart/check',
+		type: 'post',
+		dataType: 'json',
+		beforeSend: function() { 
+		},
+		complete: function() { 
+		},
+		success: function(json) {  
+			if (json === true || json == 'true') {
+				return;
+	// $.ajax({
+	// 		url: 'index.php?route=checkout/cart/remove',
+	// 		type: 'post',
+	// 		data: 'key=91',
+	// 		dataType: 'json',
+	// 		beforeSend: function() { 
+	// 		},
+	// 		complete: function() { 
+	// 		},
+	// 		success: function(json) {
+
+	// 			$('.cart_main-list').load('index.php?route=common/cart/cart .cart_main-list');
+	// 			$('.cart_main-additionals').load('index.php?route=common/cart/cart .cart_main-additionals');
+
+	// 			$('.sprite.sprite-cart-2').load('index.php?route=common/cart/info .cart-count');
+
+	// 		},
+	// 		error: function(xhr, ajaxOptions, thrownError) {
+	// 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	// 		}
+	// 	});
+			}else{
+
+	$.ajax({
+		url: 'index.php?route=checkout/cart/add',
+		type: 'post',
+		data: obj,
+		dataType: 'json',
+		beforeSend: function() {
+			$('#button-cart').button('loading');
+		},
+		complete: function() {
+			$('#button-cart').button('reset');
+		},
+		success: function(json) {
+			$('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+			if (json['error']) {
+				if (json['error']['option']) {
+					for (i in json['error']['option']) {
+						var element = $('#input-option' + i.replace('_', '-'));
+
+						if (element.parent().hasClass('input-group')) {
+							element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+						} else {
+							element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+						}
+					}
+				}
+
+				if (json['error']['recurring']) {
+					$('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+			}
+
+			if (json['success']) {
+				$('.breadcrumb').after('<div class="alert alert-success alert-dismissible">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+				$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
+
+				$('html, body').animate({ scrollTop: 0 }, 'slow');
+
+				// $('.cart_main-list').load('index.php?route=checkout/cart/ .cart_main-list');
+ 
+				$('.cart_main-list').load('index.php?route=common/cart/cart .cart_main-list');
+				$('.cart_main-additionals').load('index.php?route=common/cart/cart .cart_main-additionals');
+
+				$('.sprite.sprite-cart-2').load('index.php?route=common/cart/info .cart-count');
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+});
+//-->
+</script> 

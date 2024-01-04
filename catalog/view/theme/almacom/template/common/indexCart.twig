@@ -1,0 +1,104 @@
+
+					<ul class="cart_main-list">
+						{% for product in products %}
+						<li class="cm-list-item">
+							<div class="card_cart">
+								<span style="{% if product.jan == ''  %}display: none{% endif %}" class="cp-features-new">{{product.jan}}</span>
+								<div class="card_cart-img">
+									<img src="{% if product.thumb != '' %}{{ product.thumb }}{% else  %}/image/cache/catalog/no_photo-47x47.png{% endif %}" alt="{{ product.name }}">									
+								</div>
+
+								<div class="card_cart-text"><span class="cc-text-articul">Артикул:&nbsp;{{ product.model }}</span>
+									<h2 class="cc-text-name">{{ product.name }}</h2>
+								</div>
+								<div class="card_cart-counter">
+									{% if product.product_id != '91' %}
+									<div class="product-counter">
+										<span class="button_update_{{ product.cart_id }} product-counter-less">-</span>
+										<span class=" product-counter-value">{{ product.quantity }}</span>
+										<span class="button_update_{{ product.cart_id }} product-counter-more">+</span> 
+										<script type="text/javascript">
+											
+
+											$(document).on('click', '.button_update_{{ product.cart_id }}', function(e){
+												e.preventDefault(); 
+
+												var quantity = parseInt($("#quantity_{{ product.cart_id }}").val());
+ 
+													if (quantity == 1){
+														$('.product-counter-less').hide()
+													}else{
+														$('.product-counter-less').show()
+													} 
+												
+												var key = '{{ product.cart_id }}';
+												$.ajax({
+														url: 'index.php?route=checkout/cart/edit',
+														type: 'post',
+														data: 'key=' + key + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
+														dataType: 'json',
+														beforeSend: function() { 
+															$('.button_update_{{ product.cart_id }}').prop('disabled', true);
+															$('.button_update_{{ product.cart_id }}').attr('disabled', true);
+														},
+														complete: function() {
+															$('.button_update_{{ product.cart_id }}').prop('disabled', false);
+															$('.button_update_{{ product.cart_id }}').attr('disabled', false);
+														},
+														success: function(json) {
+															// Need to set timeout otherwise it wont update the total
+															setTimeout(function () {
+																$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
+															}, 100);
+
+															$('.sprite.sprite-cart-2').load('index.php?route=common/cart/info .cart-count');
+														},
+														error: function(xhr, ajaxOptions, thrownError) {
+															console.log(xhr);
+															console.log(ajaxOptions);
+															console.log(thrownError);
+															alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+														}
+												}); 
+											});
+										</script>
+										<input class="d-none" type="hidden" id="quantity_{{ product.cart_id }}" 
+										name="quantity[{{ product.cart_id }}]" value="{{ product.quantity }}" size="1" class="form-control" />
+									</div>
+									{% endif %}
+								</div>
+								<div class="card_cart-sum">
+									<span class="cart-item-price d-none">{{ product.price }}</span>
+									<span class="cart-item-total">{{ product.total }}</span>
+								</div>
+								<div class="card_cart-controls">
+									<span class="cc-controls-fav"><i class="sprite sprite-heart-empty-small"></i></span>
+									<span data-toggle="tooltip"  title="{{ button_remove }}" class="cc-controls-delete"><i class="sprite sprite-delete" onclick="cart.remove('{{ product.cart_id }}');"></i></span>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+
+<div class="cart_main-additionals">
+						<h3 class="cm-additionals-title"><span>Дополнительные услуги</span><i class="sprite sprite-arrow-down"></i></h3>
+						<ul class="cm-additionals-list">
+							<li class="cma-list-item">
+								<div class="cmal-item-name">
+									<label {% if usluga == 'true'  %} onclick="cart.remove( {{ usluga_cart_id }} );" {% endif %} for="install" class="theme-checkbox install-add">
+										<input  {% if usluga == 'true'   %} checked="checked" {% endif %}  id="install" type="checkbox" name="" value="91">
+										<span class="checkbox-icon {% if usluga == 'true'   %} checked {% endif %}" ><i class="sprite sprite-tick"></i></span><span>Установка и монтаж конидционера</span>
+									</label>
+								</div>
+								<div class="cmal-item-price"><span>5000 ₸</span></div>
+							</li>
+							<li class="cma-list-item">
+								<div class="cmal-item-name">
+									<label class="theme-checkbox install-add">
+										<input type="checkbox" name="" value=""><span class="checkbox-icon"><i class="sprite sprite-tick"></i></span><span>Доставка до дома или офиса</span>
+									</label>
+								</div>
+								<div class="cmal-item-price"><span>1300 ₸</span></div>
+							</li>
+						</ul>
+					</div>

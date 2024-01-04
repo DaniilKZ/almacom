@@ -1,0 +1,32 @@
+{% if not redirect %}
+          <div class="cart_infobox-main">
+            <div class="final_infobox-title">2 позиция в заказе</div>
+            <ul class="final_infobox-list">
+              {% for product in products %}
+                <li class="fi-list-item">
+                  <p class="fil-item-name"><a href="{{ product.href }}">{{ product.name }}</a></p>
+                  {% for option in product.option %} <br /> &nbsp;<small> - {{ option.name }}: {{ option.value }}</small> {% endfor %}
+                  <p class="fil-item-count">{{ product.price }} ₸ - {{ product.quantity }} шт</p>
+                </li>
+                <li class="fi-list-item">
+                  <p class="fil-item-name">Установка и монтаж конидционера</p>
+                  <p class="fil-item-count">5000 ₸ - 1 шт</p>
+                </li>
+              {% endfor %}
+            </ul>
+            <hr>
+            <div class="final_infobox-sum"><span>Итого</span>
+              {% for total in totals %}
+                <p class="fi-sum-amount">{{ total.text }} ₸</p>
+              {% endfor %}       
+            </div>
+          </div>
+
+{% else %} 
+          <div class="cart_infobox-main">
+            <div class="final_infobox-title">Пусто</div>
+          </div>
+<script type="text/javascript"><!--
+//location = '{{ redirect }}';
+//--></script> 
+{% endif %} 

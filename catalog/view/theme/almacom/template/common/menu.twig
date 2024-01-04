@@ -1,0 +1,31 @@
+{% set icons = ['ac','sanitary','drier','cooler', 'microwave 1', 'heater-2','fridge-3','fridge-2','warm'] %}
+
+{% if categories %}
+<ul class="menu-item-dropdown">
+    {% for category in categories %}
+        <li class="mi-dropdown-item">
+          <a class="mid-item-link" href="{{ category.href }}">
+            <span class="midi-link-text"> 
+{#              <span class="midil-text-icon"><i class="sprite-{{icons[loop.index - 1]}}"></i></span>#}
+              <span class="midil-text-icon"><img src="{{ category.iconMenu }}" alt=""></span>
+              <span class="midil-text-name">{{ category.name }}</span>
+            </span>
+            {% if category.children %}<i class="sprite-arrow-menu"></i>{% endif %}
+          </a>
+          {% if category.children %}
+          <div class="midi-link-dropdown">
+            {% for children in category.children|batch(category.children|length / category.column|round(1, 'ceil')) %}
+            <ul class="midi-link-dropdown_list">
+              {% for child in children %}
+              <li class="midil-dropdown-item">
+                <a class="midild-item-link" href="{{ child.href }}">{{ child.name }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}

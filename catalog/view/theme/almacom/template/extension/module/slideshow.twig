@@ -1,0 +1,57 @@
+<!-- HOME SLIDER -->
+<section class="home_slider">
+	<div class="home_slider-in">
+		<div class="home_slider-list swiper-wrapper">
+		{% for banner in banners %}
+
+			<div class="hs-list-item swiper-slide">
+				<div class="hsl-item-image" id="bgcolor_{{ loop.index }}">
+
+					{% if  banner.video != false %}
+						<video autoplay loop muted>
+							<source src="{{ banner.video }}" type="video/mp4">  
+						</video>
+					{% else %}
+						<img src="{{ banner.image }}" alt="{{ banner.title }}">
+					{% endif %}
+
+					{% if  banner.bgcolor == 'black' %}
+					<style type="text/css">
+						#bgcolor_{{ loop.index }}:after {
+						    background-color: rgba(0,0,0,0.40) !important
+						}
+					</style>
+					{% elseif  banner.bgcolor == 'white' %}
+					<style type="text/css">
+						#bgcolor_{{ loop.index }}:after {
+						    background-color: rgb(255 255 255 / 57%) !important;
+						}
+						span.cs-info-text,.card-slider-heading {
+						    color: #242424;
+						}
+					</style>
+					{% endif %}
+
+
+				</div>
+				<div class="card-slider wrapper">
+					{% if banner.title %}<h2 class="card-slider-heading">{{ banner.title }}</h2>{% endif %}
+					{% if banner.title_one %}
+						<p class="card-slider-info">
+							<!-- <img class="cs-info-icon" src="catalog/view/theme/almacom/img/safety.png" alt="" width="24" height="28"> -->
+							<span class="cs-info-text">{{ banner.title_one }}</span>
+						</p>
+					{% endif %}
+					{% if banner.button_text %}
+						<a class="card-slider-link button" href="{{ banner.link }}">{{ banner.button_text }}</a>
+					{% endif %}
+				</div>
+			</div>
+
+		{% endfor %}
+		</div>
+		<div class="swiper-pagination d-none"></div>
+		<div class="swiper-button_prev d-none"><i class="sprite sprite-arrow-left-1"><svg><use xlink:href="#arrow"></use></svg></i></div>
+		<div class="swiper-button_next d-none"><i class="sprite sprite-arrow-left-1 rotated"><svg><use xlink:href="#arrow"></use></svg></i></div>
+	</div>
+</section>

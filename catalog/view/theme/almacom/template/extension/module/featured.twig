@@ -1,0 +1,75 @@
+<!-- PRODUCTS CAROUSEL -->
+<section class="products_carousel">
+  <div class="products_carousel-in wrapper">
+    <h2 class="block-heading">{{ module_name }} {% if id == 28 %} <a href="/kondicionery/nastennye" class="block-heading-hl">(Товары: {{ " " ~ product_total }})</a>{% endif %}</h2>
+    <div class="products_carousel-swiper swiper-container">
+      <ul class="products_carousel-list swiper-wrapper">
+      {% for product in products %}
+        <li class="pc-list-item swiper-slide">
+          <div class="card-product">
+            <div class="card-product-image"> 
+              <span style="{% if product.jan == ''  %}display: none{% endif %}" class="cp-features-new">{{ product.jan }}</span>
+              <div class="cp-image-list">
+                <div class="cpi-list-item">
+                  <img src="{{ product.thumb }}" alt="{{ product.name }}">
+                </div>
+              </div>
+            </div>
+            <div class="card-product-data cl-list-item">
+              <div class="card-product-presence">{{ product.stock }}</div>
+              <h3 class="card-product-name">{{ product.name }} {% if not product.options %} {{ " " ~ product.model }} {% endif %}
+              {% if product.ean %} 
+                {{ "<br><small class='product-badge' style=''>Серия " ~ product.ean ~ "</small>" }} 
+              {% endif %}
+              </h3>
+              {% if product.price %}
+              {% if not product.special %}
+              <div class="card-product-price">
+                {% if product.options %}
+                {% for option in product.options %}
+                {% if option.type == 'radio' %}
+                <span>от</span>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                <span>{{ product.price }}</span>
+              </div>
+              <div class="card-product-discount"></div>
+              {% else %}
+              <div class="card-product-price">
+                {% if product.options %}
+                {% for option in product.options %}
+                {% if option.type == 'radio' %}
+                <span>от</span>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                <span>{{ product.special }}</span>
+                <span class="cp-price-discount">{{ product.discount_percent }}%</span>
+              </div>
+              <div class="card-product-discount">
+                {% if product.options %}
+                {% for option in product.options %}
+                {% if option.type == 'radio' %}
+                <span>от</span>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                <span>{{ product.price }}</span>
+              </div>
+              {% endif %}
+              {% endif %}
+              <div class="card-product-buttons">
+                <a class="cp-buttons-link button" href="{{ product.href }}">Подробнее</a>
+                {# <button class="cp-features-fav" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="sprite sprite-heart-empty"></i></button> #}
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+      <div class="swiper-button_prev"><i class="sprite sprite-arrow-left-2"><svg><use xlink:href="#arrow"></use></svg></i></div>
+      <div class="swiper-button_next"><i class="sprite sprite-arrow-left-2 rotated"><svg><use xlink:href="#arrow"></use></svg></i></div>
+    </div>
+  </div>
+</section>
